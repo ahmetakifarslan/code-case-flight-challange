@@ -11,6 +11,8 @@ import FlightSearchPage from "./pages/FlightSearchPage/FlightSearchPage.tsx";
 import FlightListPage from "./pages/FlightListPage/FlightListPage.tsx";
 import CabinSelectionConfirmationPage from "./pages/CabinSelectionConfirmationPage/CabinSelectionConfirmationPage.tsx";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.tsx";
+import { Provider } from "react-redux";
+import { store } from "./redux/store.ts";
 
 const routes: RouteObject[] = [
   {
@@ -46,6 +48,8 @@ const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

@@ -8,7 +8,7 @@ export default function MainLayout() {
         <Header></Header>
       </div>
 
-      <div className="page-content">
+      <div className="lg:w-8/12 mx-auto shadow-default">
         <Outlet></Outlet>
       </div>
     </div>
