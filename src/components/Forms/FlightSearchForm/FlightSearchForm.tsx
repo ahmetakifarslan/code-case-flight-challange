@@ -8,15 +8,11 @@ import DatePicker from "../../Inputs/DatePicker/DatePicker";
 import PassengerCount from "../../Inputs/PassengerCount/PassengerCount";
 import useInput from "../../../utils/custom-hooks/useInput";
 import { FareCategories, FareCategoriesEnum } from "../../../types/constants";
-import {
-  createSearchParams,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setFlightForm } from "../../../redux/features/flights/flightsSlice";
 import { isValidDestination, isValidOrigin } from "../../../utils/validators";
+import { FormEvent } from "react";
 
 export interface PassengerCountForm {
   fareCategory: FareCategories;
@@ -24,7 +20,6 @@ export interface PassengerCountForm {
 }
 
 export default function FlightSearchForm() {
-  const [params, setParams] = useSearchParams();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const originalAirportValue = searchParams.get("from") || "";
@@ -43,7 +38,7 @@ export default function FlightSearchForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formValues = {
@@ -68,11 +63,11 @@ export default function FlightSearchForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-gray-500 flex gap-2 p-4 items-stretch text-dark"
+      className="bg-gray-500 flex gap-2 p-4 items-stretch text-dark w-max mx-auto flex-nowrap"
     >
-      <div className="form-field flex-1 bg-white 16">
+      <div className="form-field flex-0 bg-white 16">
         <ComboBox
-          name="originalAirport"
+          name="originAirport"
           placeholder="Nereden"
           icon={
             <AirPlaneTakeOff
@@ -86,9 +81,9 @@ export default function FlightSearchForm() {
           validator={isValidOrigin}
         ></ComboBox>
       </div>
-      <div className="form-field flex-1  bg-white 16">
+      <div className="form-field flex-0  bg-white 16">
         <ComboBox
-          name="destinationAirportInput"
+          name="destinationAirport"
           placeholder="Nereye"
           icon={
             <AirPlaneLanding
