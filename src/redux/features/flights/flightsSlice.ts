@@ -1,17 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Flight } from "../../../types/flights";
+import { v4 as uuidv4 } from "uuid";
 
 export interface FlightsState {
   flights: Flight[];
   orderBy: "economy" | "arrivalDateTimeDisplay";
 }
 
-export const simulateAsyncOperation = createAsyncThunk(
+export const simulateGetFlights = createAsyncThunk(
   "flights/simulateAsyncOperation",
   async (payload, thunkAPI) => {
     try {
       // Bekleme süresini simüle etmek için setTimeout kullanıyoruz
-      await new Promise((resolve) => setTimeout(resolve, 3000)); // 2 saniye beklemek
+      await new Promise((resolve) => setTimeout(resolve, 100)); // 2 saniye beklemek
+
       return [
         {
           originAirport: {
@@ -497,16 +499,16 @@ export const flightsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(simulateAsyncOperation.pending, (state) => {
+      .addCase(simulateGetFlights.pending, (state) => {
         state.loading = true;
       })
-      .addCase(simulateAsyncOperation.fulfilled, (state, action) => {
+      .addCase(simulateGetFlights.fulfilled, (state, action) => {
         state.loading = false;
-        state.flights = action.payload;
-
-        debugger;
+        state.flights = action.payload.map((item) => {
+          return { id: uuidv4(), ...item };
+        });
       })
-      .addCase(simulateAsyncOperation.rejected, (state, action) => {
+      .addCase(simulateGetFlights.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
       });

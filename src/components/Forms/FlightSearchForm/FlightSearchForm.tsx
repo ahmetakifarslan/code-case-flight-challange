@@ -8,7 +8,12 @@ import DatePicker from "../../Inputs/DatePicker/DatePicker";
 import PassengerCount from "../../Inputs/PassengerCount/PassengerCount";
 import useInput from "../../../utils/custom-hooks/useInput";
 import { FareCategories, FareCategoriesEnum } from "../../../types/constants";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  createSearchParams,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setFlightForm } from "../../../redux/features/flights/flightsSlice";
 import { isValidDestination, isValidOrigin } from "../../../utils/validators";
@@ -47,16 +52,25 @@ export default function FlightSearchForm() {
       passengerCountForm: passengerCountInput.value,
     };
 
-    setParams({
-      from: formValues.originalAirportValue,
-      to: formValues.destinationAirportValue,
-      passengerCount: String(formValues.passengerCountForm.passengerCount),
-      fareCategory: formValues.passengerCountForm.fareCategory,
-    });
+    // setParams({
+    //   from: formValues.originalAirportValue,
+    //   to: formValues.destinationAirportValue,
+    //   passengerCount: String(formValues.passengerCountForm.passengerCount),
+    //   fareCategory: formValues.passengerCountForm.fareCategory,
+    // });
 
     dispatch(setFlightForm(formValues));
 
-    navigate(`flight-list-page?${searchParams}`);
+    // navigate(`flight-list-page?${searchParams}`);
+    navigate({
+      pathname: "flight-list-page",
+      search: createSearchParams({
+        from: formValues.originalAirportValue,
+        to: formValues.destinationAirportValue,
+        passengerCount: String(formValues.passengerCountForm.passengerCount),
+        fareCategory: formValues.passengerCountForm.fareCategory,
+      }).toString(),
+    });
   }
 
   return (

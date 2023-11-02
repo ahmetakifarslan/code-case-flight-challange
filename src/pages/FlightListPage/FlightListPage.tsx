@@ -2,18 +2,20 @@ import FlightList from "../../components/FlightList/FlightList";
 import Switch from "../../components/Switch/Switch";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  simulateAsyncOperation,
+  simulateGetFlights,
   toggleSwitch,
 } from "../../redux/features/flights/flightsSlice";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function FlightListPage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const originalAirportValue = searchParams.get("from") || "";
-  const destinationAirportValue = searchParams.get("to") || "";
-  const passengerCount = searchParams.get("passengerCount") || 1;
+  const originalAirportValue = searchParams.get("from");
+  const destinationAirportValue = searchParams.get("to");
+  const passengerCount = searchParams.get("passengerCount");
+
+  const navigate = useNavigate();
 
   const flights = useSelector((state) => state.flights);
   const hasPromotion = false;
@@ -22,12 +24,23 @@ export default function FlightListPage() {
   function onSwitchChange(switchState: boolean) {
     dispatch(toggleSwitch(switchState));
   }
-
+  console.log(originalAirportValue, destinationAirportValue, passengerCount);
   useEffect(() => {
-    dispatch(simulateAsyncOperation())
-      .unwrap()
-      .then(() => {});
+    const controlledParams = [
+      originalAirportValue,
+      destinationAirportValue,
+      passengerCount,
+    ];
+
+    const isEveryQueryParamSetted = controlledParams.every((item) => !!item);
+
+    if (!isEveryQueryParamSetted) {
+      navigate("/");
+    }
+
+    dispatch(simulateGetFlights(originalAirportValue, destinationAirportValue));
   }, []);
+
   if (flights.error) {
     return <p>Bir hata oluştu</p>;
   }

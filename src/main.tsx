@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import {
+  Navigate,
   RouteObject,
   RouterProvider,
   createBrowserRouter,
@@ -35,6 +36,7 @@ const routes: RouteObject[] = [
       {
         path: "cabin-selection",
         element: <CabinSelectionConfirmationPage />,
+        errorElement: <Navigate to="/" />,
       },
     ],
   },

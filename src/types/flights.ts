@@ -5,6 +5,7 @@ export interface Root {
 }
 
 export interface Flight {
+  id: string;
   originAirport: OriginAirport;
   destinationAirport: DestinationAirport;
   arrivalDateTimeDisplay: string;

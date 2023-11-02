@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Flight } from "../../types/flights";
-import { v4 as uuidv4 } from "uuid";
 import FlightCard from "../FlightCard/FlightCard";
 import { useSelector } from "react-redux";
 
@@ -45,7 +44,7 @@ export default function FlightList() {
       <ul className="p-6 flex bg-gray-100 flex-col gap-4">
         {sortedFlights.map((item: Flight) => {
           return (
-            <li key={uuidv4()}>
+            <li key={item.id}>
               <FlightCard flight={item} />
             </li>
           );
