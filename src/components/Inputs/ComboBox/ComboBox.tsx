@@ -495,7 +495,7 @@ export default function ComboBox({
       <div className="flex items-stretch border-2 h-full bg-white">
         <span className="p-2">{icon}</span>
         <input
-          className="border-0 focus:border-transparent focus:ring-0 focus:outline-none p-2"
+          className="border-0 focus:border-transparent focus:ring-0 focus:outline-none p-2 flex-1"
           type="text"
           name={name}
           placeholder={placeholder}
@@ -503,7 +503,7 @@ export default function ComboBox({
           value={value}
         />
       </div>
-      {error && <p>bir hata algılandı</p>}
+
       <div className="dropdown">
         {dropDownItems.map((p, index) => (
           <p key={index}>{p.originAirport.name}</p>

@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FareCategories, FareCategoriesEnum } from "../../../types/constants";
+import RadioButton from "../RadioButton/RadioButton";
 
 export interface PassengerCountForm {
   fareCategory: FareCategories;
@@ -65,7 +66,7 @@ export default function PassengerCount({
 
   return (
     <div
-      className="h-full w-full border-2 cursor-pointer"
+      className="h-full w-full border-2 cursor-pointer text-black"
       onClick={handleClick}
       ref={wrapperRef}
     >
@@ -89,40 +90,31 @@ export default function PassengerCount({
           <div className="p-2">
             <p className="text-gray-500 mb-2 text-md">Kabin ve yolcu seçimi</p>
             <div className="radio-group flex items-center justify-between mb-2">
-              <div className="radio flex items-center">
-                <input
-                  id={FareCategoriesEnum.economy}
-                  type="radio"
-                  name="fareCategory"
-                  value={FareCategoriesEnum.economy}
-                  checked={fareCategory === FareCategoriesEnum.economy}
-                  onChange={handleCategorySelect}
-                />
-                <label
-                  htmlFor={FareCategoriesEnum.economy}
-                  className="text-xs ml-1"
-                >
-                  Economy Class
-                </label>
-              </div>
-              <div className="radio flex items-center">
-                <input
-                  id={FareCategoriesEnum.business}
-                  type="radio"
-                  name="fareCategory"
-                  value={FareCategoriesEnum.business}
-                  checked={fareCategory === FareCategoriesEnum.business}
-                  onChange={handleCategorySelect}
-                />
-                <label
-                  htmlFor={FareCategoriesEnum.business}
-                  className="text-xs ml-1"
-                >
-                  Business Class
-                </label>
-              </div>
+              <RadioButton
+                id={FareCategoriesEnum.economy}
+                name="fareCategory"
+                label="Economy Class"
+                value={FareCategoriesEnum.economy}
+                checked={fareCategory === FareCategoriesEnum.economy}
+                onChange={handleCategorySelect}
+                classNames={{
+                  labelClasses: "text-xs",
+                }}
+              />
+
+              <RadioButton
+                id={FareCategoriesEnum.business}
+                name="fareCategory"
+                label="Business Class"
+                value={FareCategoriesEnum.business}
+                checked={fareCategory === FareCategoriesEnum.business}
+                classNames={{
+                  labelClasses: "text-xs",
+                }}
+                onChange={handleCategorySelect}
+              />
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center ">
               <p className="text-md">Yolcu</p>
               <div className="flex items-center">
                 <button

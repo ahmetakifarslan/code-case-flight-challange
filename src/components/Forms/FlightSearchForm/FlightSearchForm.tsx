@@ -52,16 +52,8 @@ export default function FlightSearchForm() {
       passengerCountForm: passengerCountInput.value,
     };
 
-    // setParams({
-    //   from: formValues.originalAirportValue,
-    //   to: formValues.destinationAirportValue,
-    //   passengerCount: String(formValues.passengerCountForm.passengerCount),
-    //   fareCategory: formValues.passengerCountForm.fareCategory,
-    // });
-
     dispatch(setFlightForm(formValues));
 
-    // navigate(`flight-list-page?${searchParams}`);
     navigate({
       pathname: "flight-list-page",
       search: createSearchParams({
@@ -76,13 +68,19 @@ export default function FlightSearchForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-gray-500 flex gap-2 p-4 items-stretch"
+      className="bg-gray-500 flex gap-2 p-4 items-stretch text-dark"
     >
       <div className="form-field flex-1 bg-white 16">
         <ComboBox
           name="originalAirport"
           placeholder="Nereden"
-          icon={<AirPlaneTakeOff width="1.5rem" height="1.5rem" />}
+          icon={
+            <AirPlaneTakeOff
+              width="1.5rem"
+              height="1.5rem"
+              fill="text-sky-900"
+            />
+          }
           onChange={originalAirpotInput.onChange}
           value={originalAirpotInput.value}
           validator={isValidOrigin}
@@ -92,7 +90,13 @@ export default function FlightSearchForm() {
         <ComboBox
           name="destinationAirportInput"
           placeholder="Nereye"
-          icon={<AirPlaneLanding width="1.5rem" height="1.5rem" />}
+          icon={
+            <AirPlaneLanding
+              width="1.5rem"
+              height="1.5rem"
+              fill="text-sky-900"
+            />
+          }
           onChange={destinationAirportInput.onChange}
           value={destinationAirportInput.value}
           validator={isValidDestination}

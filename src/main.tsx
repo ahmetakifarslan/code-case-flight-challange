@@ -25,11 +25,6 @@ const routes: RouteObject[] = [
         element: <FlightSearchPage />,
       },
       {
-        path: "flight-search-page",
-        index: true,
-        element: <FlightSearchPage />,
-      },
-      {
         path: "flight-list-page",
         element: <FlightListPage />,
       },
