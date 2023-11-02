@@ -1,20 +1,20 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { FareCategories, FareCategoriesEnum } from "../../../types/constants";
 import RadioButton from "../RadioButton/RadioButton";
 import Counter from "./Counter";
 import RadioGroup from "../RadioGroup/RadioGroup";
+import PassengerCountDropdown from "./PassengerCountDropdown";
 
 export interface PassengerCountForm {
   fareCategory: FareCategories;
   passengerCount: number;
 }
 
-interface Props {
+interface PasengerCountProps {
   icon?: React.ReactNode;
   fareCategory: FareCategories;
   passengerCount: number;
   onChange: (form: PassengerCountForm) => void;
-  onClick: (width: number) => void;
 }
 
 export default function PassengerCount({
@@ -22,62 +22,52 @@ export default function PassengerCount({
   onChange,
   passengerCount,
   fareCategory,
-}: Props) {
-  const wrapperRef = useRef();
-
+}: PasengerCountProps) {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [showDropDown, setShowDropdown] = useState(false);
 
-  const [radioGroupValue, setRadioGroupValue] = useState<FareCategories>(
-    FareCategoriesEnum.economy
-  );
+  function handleIconClick() {
+    setShowDropdown(true);
+  }
 
-  function increase(event) {
-    console.log(event);
-    event.stopPropagation();
-    const form = { fareCategory, passengerCount: passengerCount + 1 };
+  function handleClickOutside(event: MouseEvent<HTMLElement>) {
+    const isInsideClick = wrapperRef.current.contains(event.target as Node);
+    setShowDropdown(isInsideClick);
+  }
+
+  function handleCounterClick(event: MouseEvent<HTMLElement>) {
+    const count =
+      event.target.name === "increase"
+        ? passengerCount + 1
+        : passengerCount === 1
+        ? passengerCount
+        : passengerCount - 1;
+
+    const form = { fareCategory: fareCategory, passengerCount: count };
     onChange(form);
   }
 
-  function decrease(event) {
-    event.stopPropagation();
-
-    const form = { fareCategory, passengerCount: passengerCount - 1 };
-    onChange(form);
-  }
-
-  function handleCategorySelect(event: ChangeEvent<HTMLInputElement>) {
+  function handleCategorySelect(fareCagegory: FareCategories) {
     const form = {
-      fareCategory: event.target.value,
+      fareCategory: fareCagegory,
       passengerCount: 1,
     };
     onChange(form);
   }
 
-  function handleClick(event: any) {
-    setShowDropdown(true);
-  }
-
-  function handleClickOutside(event) {
-    const isInsideClick =
-      wrapperRef.current && !wrapperRef.current.contains(event.target);
-    setShowDropdown(!isInsideClick);
-  }
-
   function handleRadioGroupChange(event: ChangeEvent<HTMLInputElement>) {
-    setRadioGroupValue(event.target.value as FareCategories);
+    handleCategorySelect(event.target.value as FareCategories);
   }
 
-  // useEffect(() => {
-  //   // showDropDown && document.addEventListener("click", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //   };
-  // }, [wrapperRef, showDropDown]);
+  useEffect(() => {
+    showDropDown && document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [wrapperRef, showDropDown]);
 
   return (
     <div
       className="h-full w-full border-2 cursor-pointer text-black"
-      onClick={handleClick}
+      onClick={handleIconClick}
       ref={wrapperRef}
     >
       <div className="flex items-center justify-center h-full bg-blue-950">
@@ -86,23 +76,14 @@ export default function PassengerCount({
           {passengerCount}
         </div>
       </div>
-      {showDropDown && (
-        <div className="overlay absolute w-full mt-3 left-1/2 -translate-x-2/4 bg-white shadow-md p-4 top-full">
-          <svg
-            className="absolute text-white h-4 bottom-full rotate-180"
-            style={{ left: 150 }}
-            x="0px"
-            y="0px"
-            viewBox="0 0 255 255"
-          >
-            <polygon className="fill-current" points="0,0 127.5,127.5 255,0" />
-          </svg>
 
+      {showDropDown && (
+        <PassengerCountDropdown>
           <p className="text-gray-500 text-md">Kabin ve yolcu seçimi</p>
 
           <RadioGroup
             onChange={handleRadioGroupChange}
-            selectedValue={radioGroupValue}
+            selectedValue={fareCategory}
             wrapperClasses="my-3"
           >
             <RadioButton
@@ -128,10 +109,10 @@ export default function PassengerCount({
 
           <Counter
             count={passengerCount}
-            increaseFn={increase}
-            decreaseFn={decrease}
+            increaseFn={handleCounterClick}
+            decreaseFn={handleCounterClick}
           />
-        </div>
+        </PassengerCountDropdown>
       )}
     </div>
   );
