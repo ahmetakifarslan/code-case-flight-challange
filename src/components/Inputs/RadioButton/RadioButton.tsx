@@ -1,17 +1,17 @@
 import { ChangeEvent } from "react";
 
-interface Props {
+export interface RadioButtonProps {
   id?: string;
   name: string;
   label: string;
   value: string;
-  checked: boolean;
+  checked?: boolean;
   classNames?: {
     wrapperClasses?: string;
     inputClasses?: string;
     labelClasses?: string;
   };
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function RadioButton({
@@ -22,7 +22,7 @@ export default function RadioButton({
   checked,
   onChange,
   classNames,
-}: Props) {
+}: RadioButtonProps) {
   const wrapperClasses =
     "flex items-center gap-1 " + classNames?.wrapperClasses ?? "";
   const inputClasses = classNames?.inputClasses ?? "";

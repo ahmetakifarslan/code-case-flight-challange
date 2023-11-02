@@ -1,6 +1,8 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FareCategories, FareCategoriesEnum } from "../../../types/constants";
 import RadioButton from "../RadioButton/RadioButton";
+import Counter from "./Counter";
+import RadioGroup from "../RadioGroup/RadioGroup";
 
 export interface PassengerCountForm {
   fareCategory: FareCategories;
@@ -24,6 +26,10 @@ export default function PassengerCount({
   const wrapperRef = useRef();
 
   const [showDropDown, setShowDropdown] = useState(false);
+
+  const [radioGroupValue, setRadioGroupValue] = useState<FareCategories>(
+    FareCategoriesEnum.economy
+  );
 
   function increase(event) {
     console.log(event);
@@ -57,6 +63,10 @@ export default function PassengerCount({
     setShowDropdown(!isInsideClick);
   }
 
+  function handleRadioGroupChange(event: ChangeEvent<HTMLInputElement>) {
+    setRadioGroupValue(event.target.value as FareCategories);
+  }
+
   // useEffect(() => {
   //   // showDropDown && document.addEventListener("click", handleClickOutside);
   //   return () => {
@@ -87,54 +97,40 @@ export default function PassengerCount({
           >
             <polygon className="fill-current" points="0,0 127.5,127.5 255,0" />
           </svg>
-          <div className="p-2">
-            <p className="text-gray-500 mb-2 text-md">Kabin ve yolcu seçimi</p>
-            <div className="radio-group flex items-center justify-between mb-2">
-              <RadioButton
-                id={FareCategoriesEnum.economy}
-                name="fareCategory"
-                label="Economy Class"
-                value={FareCategoriesEnum.economy}
-                checked={fareCategory === FareCategoriesEnum.economy}
-                onChange={handleCategorySelect}
-                classNames={{
-                  labelClasses: "text-xs",
-                }}
-              />
 
-              <RadioButton
-                id={FareCategoriesEnum.business}
-                name="fareCategory"
-                label="Business Class"
-                value={FareCategoriesEnum.business}
-                checked={fareCategory === FareCategoriesEnum.business}
-                classNames={{
-                  labelClasses: "text-xs",
-                }}
-                onChange={handleCategorySelect}
-              />
-            </div>
-            <div className="flex justify-between items-center ">
-              <p className="text-md">Yolcu</p>
-              <div className="flex items-center">
-                <button
-                  type="button"
-                  className="bg-gray-500 bg-opacity-30 h-8 w-8 rounded"
-                  onClick={decrease}
-                >
-                  -
-                </button>
-                <p className="w-8 text-center">{passengerCount}</p>
-                <button
-                  type="button"
-                  className="bg-gray-500 bg-opacity-30 h-8 w-8 rounded"
-                  onClick={increase}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </div>
+          <p className="text-gray-500 text-md">Kabin ve yolcu seçimi</p>
+
+          <RadioGroup
+            onChange={handleRadioGroupChange}
+            selectedValue={radioGroupValue}
+            wrapperClasses="my-3"
+          >
+            <RadioButton
+              id={FareCategoriesEnum.economy}
+              name="fareCategory"
+              label="Economy Class"
+              value={FareCategoriesEnum.economy}
+              classNames={{
+                labelClasses: "text-xs",
+              }}
+            />
+
+            <RadioButton
+              id={FareCategoriesEnum.business}
+              name="fareCategory"
+              label="Business Class"
+              value={FareCategoriesEnum.business}
+              classNames={{
+                labelClasses: "text-xs",
+              }}
+            />
+          </RadioGroup>
+
+          <Counter
+            count={passengerCount}
+            increaseFn={increase}
+            decreaseFn={decrease}
+          />
         </div>
       )}
     </div>
