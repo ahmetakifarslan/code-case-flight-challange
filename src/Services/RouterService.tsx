@@ -6,10 +6,11 @@ import FlightSearchPage from "../Pages/FlightSearchPage/FlightSearchPage";
 import FlightListPage from "../Pages/FlightListPage/FlightListPage";
 import CabinSelectionConfirmationPage from "../Pages/CabinSelectionConfirmationPage/CabinSelectionConfirmationPage";
 import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
+import { APP_CONFIG } from "../AppConfig";
 
 const routes: RouteObject[] = [
   {
-    path: "/",
+    path: APP_CONFIG.pages.searchPage.route,
     element: <MainLayout />,
     children: [
       {
@@ -17,13 +18,13 @@ const routes: RouteObject[] = [
         element: <FlightSearchPage />,
       },
       {
-        path: "flight-list-page",
+        path: APP_CONFIG.pages.listPage.route,
         element: <FlightListPage />,
       },
       {
-        path: "cabin-selection",
+        path: APP_CONFIG.pages.cabinSelectionPage.route,
         element: <CabinSelectionConfirmationPage />,
-        errorElement: <Navigate to="/" />,
+        errorElement: <Navigate to={APP_CONFIG.pages.searchPage.route} />,
       },
     ],
   },

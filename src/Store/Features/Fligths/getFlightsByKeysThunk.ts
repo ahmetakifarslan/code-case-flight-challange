@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import data from "../../Data/flights.json";
 import { filterFlightsByCity } from "../../../Utils/Helpers/FilterByCity";
+import { v4 as uuidv4 } from "uuid";
 
 export const getFlightsByKeys = createAsyncThunk(
   "flights/getFlightsByKeys",
@@ -9,6 +10,10 @@ export const getFlightsByKeys = createAsyncThunk(
       await new Promise((resolve) => setTimeout(resolve, 1000));
       const originAirportCity = payload.searchParams.get("from");
       const destinationAirportCity = payload.searchParams.get("to");
+
+      data.flights = data.flights.map((item) => {
+        return { id: uuidv4(), ...item };
+      });
 
       const filteredFlights = filterFlightsByCity(
         originAirportCity,

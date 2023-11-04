@@ -6,6 +6,7 @@ import { RootState } from "../../Services/StoreService";
 import Spinner from "../../Components/Spinner/Spinner";
 import CrossIcon from "../../Assets/Images/Icons/cross.svg?react";
 import { useNavigate } from "react-router-dom";
+import { APP_CONFIG } from "../../AppConfig";
 
 export default function FlightSearchPage() {
   const flightsData = useSelector((state: RootState) => state.flightsData);
@@ -32,7 +33,7 @@ export default function FlightSearchPage() {
         </div>
         <div className="flex items-center justify-end">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate(APP_CONFIG.pages.searchPage.route)}
             className="bg-red-500 py-2 px-6 text-white font-medium text-sm"
           >
             Başa dön
@@ -44,8 +45,12 @@ export default function FlightSearchPage() {
 
   return (
     <div className="mb-48 flex flex-col justify-center">
-      <h1 className="text-center text-5xl mt-8">Merahaba</h1>
-      <p className="text-center text-3xl mb-8">Neyi keşfetmek istersiniz?</p>
+      <h1 className="text-center text-5xl mt-8">
+        {APP_CONFIG.pages.searchPage.title}
+      </h1>
+      <p className="text-center text-3xl mb-8">
+        {APP_CONFIG.pages.searchPage.subTitle}
+      </p>
       <FlightSearchForm></FlightSearchForm>
     </div>
   );

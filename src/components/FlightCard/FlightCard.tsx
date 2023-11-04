@@ -1,7 +1,5 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { onSelectFlight } from "../../Store/Features/Fligths/flightsSlice";
 
 // Components
 import FlightDetails from "./FlightCardFlightDetails";
@@ -14,6 +12,7 @@ import {
   FareCategories,
   FareCategoriesEnum,
 } from "../../Types/Constants/Constants";
+import { APP_CONFIG } from "../../AppConfig";
 
 export default function FlightCard({ flight }: { flight: Flight }) {
   const [activeCategory, setActiveCategory] = useState<FareCategories>(
@@ -23,7 +22,6 @@ export default function FlightCard({ flight }: { flight: Flight }) {
     useState<Subcategory | null>(null);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleFareCategoryChange = (category: FareCategories) => {
     setActiveCategory(category);
@@ -32,10 +30,17 @@ export default function FlightCard({ flight }: { flight: Flight }) {
   };
 
   function handleClick(subcategory: string) {
-    navigate("/cabin-selection", { state: { selectedCategory: subcategory } });
+    navigate(APP_CONFIG.pages.cabinSelectionPage.route, {
+      state: { selectedCategory: subcategory },
+    });
   }
 
-  // Todo : geçilen propları referans objelerin kendisiyle değiştir
+  useEffect(() => {
+    if (activeCategory) {
+      const subCategories = flight.fareCategories[activeCategory].subcategories;
+      setFareSubcategories(subCategories);
+    }
+  }, [flight]);
 
   return (
     <div className="card">

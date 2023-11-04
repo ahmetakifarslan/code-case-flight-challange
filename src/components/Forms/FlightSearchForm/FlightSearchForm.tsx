@@ -33,6 +33,7 @@ import {
 } from "../../../Utils/Helpers/Validators";
 import { RootState } from "../../../Services/StoreService";
 import useQueryParams from "../../../Utils/CustomHooks/useQueryParams";
+import { APP_CONFIG } from "../../../AppConfig";
 
 export interface PassengerCountForm {
   fareCategory: FareCategories;
@@ -79,7 +80,7 @@ export default function FlightSearchForm() {
     });
 
     navigate({
-      pathname: "flight-list-page",
+      pathname: APP_CONFIG.pages.listPage.route,
       search: params.toString(),
     });
 
@@ -124,7 +125,7 @@ export default function FlightSearchForm() {
         <div className="form-field flex-0 bg-white 16">
           <ComboBox
             name="originAirport"
-            placeholder="Nereden"
+            placeholder={APP_CONFIG.pages.searchPage.form.from.placeholder}
             icon={
               <AirPlaneLandingIcon
                 width="1.5rem"
@@ -140,7 +141,7 @@ export default function FlightSearchForm() {
         <div className="form-field flex-0  bg-white 16">
           <ComboBox
             name="destinationAirport"
-            placeholder="Nereye"
+            placeholder={APP_CONFIG.pages.searchPage.form.to.placeholder}
             icon={
               <AirPlaneTakeOffIcon
                 width="1.5rem"
@@ -156,7 +157,7 @@ export default function FlightSearchForm() {
         <div className="flex gap-2 relative">
           <div className="form-field w-[100px] bg-blue-950 16">
             <DatePicker
-              label="Tarih"
+              label={APP_CONFIG.pages.searchPage.form.date.label}
               icon={<DatePickerIcon width="2rem" height="2rem" fill="white" />}
             />
           </div>

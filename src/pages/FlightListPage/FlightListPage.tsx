@@ -16,6 +16,7 @@ import { RootState } from "../../Services/StoreService";
 import useQueryParams from "../../Utils/CustomHooks/useQueryParams";
 import { removeNullParamsFromURL } from "../../Utils/Helpers/RemoveNullParamsFromUrl";
 import Spinner from "../../Components/Spinner/Spinner";
+import { APP_CONFIG } from "../../AppConfig";
 
 export default function FlightListPage() {
   const navigate = useNavigate();
@@ -41,7 +42,10 @@ export default function FlightListPage() {
     } else {
       console.log("passengerCount", passengerCount);
       removeNullParamsFromURL(searchParams);
-      navigate({ pathname: "/", search: searchParams.toString() });
+      navigate({
+        pathname: APP_CONFIG.pages.searchPage.route,
+        search: searchParams.toString(),
+      });
     }
   }, []);
 
@@ -61,7 +65,7 @@ export default function FlightListPage() {
         </div>
         <div className="flex items-center justify-end">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate(APP_CONFIG.pages.searchPage.route)}
             className="bg-red-500 py-2 px-6 text-white font-medium text-sm"
           >
             Başa dön
@@ -72,9 +76,9 @@ export default function FlightListPage() {
   }
 
   return (
-    <div className="shadow-default px-8 py-4 mb-12">
+    <div className="shadow-default px-8 py-4 mb-12 w-10/12">
       <div className="badge bg-red-500 px-12 py-1 w-max text-white mb-2">
-        UÇUŞ
+        {APP_CONFIG.pages.listPage.titleBadge}
       </div>
       <div className="text-3xl text-gray-500 mb-6 capitalize">
         <span>{from}</span> - <span>{to}</span>,
@@ -82,7 +86,7 @@ export default function FlightListPage() {
       </div>
 
       <div className="flex items-center gap-6 mb-3">
-        <span>Promosyon kodu</span>
+        <span>{APP_CONFIG.pages.listPage.switchLabel}</span>
         <Switch
           onChange={onSwitchChange}
           initialState={flightsData.hasPromotion}
@@ -90,14 +94,15 @@ export default function FlightListPage() {
       </div>
       {flightsData.hasPromotion && (
         <div className="mb-4">
-          <p className="text-sm text-gray-500 mb-1">
-            Promosyon kodu seçeneği ile tüm Economy kabini ECO paketlerini %50
-            indirimle satın alabilirsiniz!
-          </p>
-          <p className="text-sm text-gray-500">
-            Promosyon kodu seçeneği aktifken Eco Fly paketi haricinde seçim
-            yapılamamaktadır.
-          </p>
+          {APP_CONFIG.pages.listPage.promotionNotifications.map(
+            (ntfy: string, index) => {
+              return (
+                <p key={index} className="text-sm text-gray-500 mb-1">
+                  {ntfy}
+                </p>
+              );
+            }
+          )}
         </div>
       )}
 

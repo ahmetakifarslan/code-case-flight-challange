@@ -6,6 +6,7 @@ import FlightSelectButton from "./FlightCardSelectButton";
 // Utils - Helpers
 import { v4 as uuidv4 } from "uuid";
 import { RootState } from "../../Services/StoreService";
+import { APP_CONFIG } from "../../AppConfig";
 
 export default function FareCategoryDetails({
   flight,
@@ -27,7 +28,6 @@ export default function FareCategoryDetails({
             key={uuidv4()}
             className="flex flex-col justify-between flex-1 shadow-md bg-[#f9f9f9]"
           >
-            {subCategory.status}
             <div className="flex justify-between items-center pt-4 py-8 px-4">
               <p className="font-bold capitalize">{subCategory.brandCode}</p>
               <p className="flex items-start gap-1">
@@ -46,7 +46,7 @@ export default function FareCategoryDetails({
             </ul>
 
             <FlightSelectButton
-              label="Uçuş Seç"
+              label={APP_CONFIG.pages.listPage.flightCard.selectButtonLabel}
               subCategoryStatus={subCategory.status}
               brandCode={subCategory.brandCode}
               hasPromotion={hasPromotion}

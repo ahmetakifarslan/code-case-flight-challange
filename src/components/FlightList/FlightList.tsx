@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 // Types
 import { Flight } from "../../Types/flights";
 import FlightCard from "../FlightCard/FlightCard";
+import { APP_CONFIG } from "../../AppConfig";
 
 type SortType = "economy" | "arrivalDateTimeDisplay";
 
@@ -23,26 +24,23 @@ export default function FlightList({ flightList }) {
     setSortFlightsBy(params);
   }
 
-  // useEffect(() => {
-  //   SetlistSortByEconomy(fligts.sort);
-  //   SetlistSortByDate(fligts.sort);
-  // }, [flights]);
-
   return (
     <>
       <div className="bg-sky-900 text-white p-4 flex gap-2 items-center justify-end">
-        <span className="mr-4">Sıralama Kriterleri</span>
+        <span className="mr-4">
+          {APP_CONFIG.pages.listPage.sortOptions.title}
+        </span>
         <button
           className="border p-2 rounded"
           onClick={() => handleClick("economy")}
         >
-          Ekonomi Ücreti
+          {APP_CONFIG.pages.listPage.sortOptions.economyLabel}
         </button>
         <button
           className="border p-2 rounded"
           onClick={() => handleClick("arrivalDateTimeDisplay")}
         >
-          Kalkış saati
+          {APP_CONFIG.pages.listPage.sortOptions.arrivalTimeLabel}
         </button>
       </div>
 

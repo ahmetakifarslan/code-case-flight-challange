@@ -4,6 +4,7 @@ import RadioButton from "../Inputs/RadioButton/RadioButton";
 // Types
 import { FareCategories as FareCategroyTypes } from "../../Types/Constants/Constants";
 import { Business, Economy } from "../../Types/flights";
+import { APP_CONFIG } from "../../AppConfig";
 
 interface Props {
   activeCategory: FareCategroyTypes;
@@ -43,7 +44,9 @@ export default function FlightCardFareCategory({
         }}
       />
       <div className="text-left ml-4">
-        <p className="text-xs text-gray-500">Yolcu Başına</p>
+        <p className="text-xs text-gray-500">
+          {APP_CONFIG.pages.listPage.flightCard.pricingLabel}
+        </p>
         <p className="font-bold">
           <span className="mr-1">{ecoFly.price.currency}</span>
           <span>{formattedPrice}</span>

@@ -1,3 +1,4 @@
+import { APP_CONFIG } from "../../../AppConfig";
 import { CounterProps } from "../../../Types/PropTypes/CounterPropType";
 
 export default function Counter({
@@ -7,7 +8,9 @@ export default function Counter({
 }: CounterProps) {
   return (
     <div className="flex justify-between items-center ">
-      <p className="text-md">Yolcu</p>
+      <p className="text-md">
+        {APP_CONFIG.pages.searchPage.form.passengerCount.passengerCountLabel}
+      </p>
       <div className="flex items-center">
         <button
           type="button"

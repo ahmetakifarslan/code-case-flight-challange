@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 // Icons
 import CrossIcon from "../../Assets/Images/Icons/cross.svg?react";
 import CheckMarkIcon from "../../Assets/Images/Icons/checkmark.svg?react";
+import { APP_CONFIG } from "../../AppConfig";
 
 export default function CabinSelectionConfirmationPage() {
   const location = useLocation();
@@ -15,10 +16,14 @@ export default function CabinSelectionConfirmationPage() {
       <div className="p-8 w-8/12 shadow-default h-max">
         <div className="border-b pb-6 mb-6 flex items-center gap-4">
           <CheckMarkIcon fill="green" width={"2rem"} height={"2rem"} />
-          <span className="font-bold">Kabin seçiminiz tamamlanamadı</span>
+          <span className="font-bold">
+            {APP_CONFIG.pages.cabinSelectionPage.success.selectionStatus}
+          </span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-4xl font-thin">Toplam Tutar</span>{" "}
+          <span className="text-4xl font-thin">
+            {APP_CONFIG.pages.cabinSelectionPage.success.totalAmountLabel}
+          </span>
           <span className="text-3xl text-medium font-medium text-sky-600">
             {selectedCategory.price.currency} {selectedCategory.price.amount}
           </span>
@@ -35,14 +40,16 @@ export default function CabinSelectionConfirmationPage() {
             <CrossIcon fill="white" />
           </div>
 
-          <span className="font-bold">Kabin seçiminiz tamamlanamadı</span>
+          <span className="font-bold">
+            {APP_CONFIG.pages.cabinSelectionPage.error.selectionStatus}
+          </span>
         </div>
         <div className="flex items-center justify-end">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate(APP_CONFIG.pages.searchPage.route)}
             className="bg-red-500 py-2 px-6 text-white font-medium text-sm"
           >
-            Başa dön
+            {APP_CONFIG.pages.cabinSelectionPage.error.turnbackButtonLabel}
           </button>
         </div>
       </div>

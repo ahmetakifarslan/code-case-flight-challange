@@ -2,29 +2,24 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Flight, Flights } from "../../../Types/Resources/Flight";
 import { getFlights } from "./getFlightsThunk";
 import { getFlightsByKeys } from "./getFlightsByKeysThunk";
+import { APP_CONFIG } from "../../../AppConfig";
 
 export interface FlightsState {
-  flightsList: Flights;
-  orderBy: "economy" | "arrivalDateTimeDisplay";
-  flightSearchForm: any; // Uygun bir tür ekleyin
-  hasPromotion: boolean;
-  selectedFlight: Flight | null; // Uygun bir tür ekleyin
-  searchForm: any; // Uygun bir tür ekleyin
   loading: boolean;
   error: null | Error;
-  theme: "dark" | "light"; // Uygun bir tür ekleyin
+  flightsList: Flights;
+  hasPromotion: boolean;
+  theme: "dark" | "light";
+  isDiscountApllied: boolean;
 }
 
 const initialState: FlightsState = {
-  flightsList: [],
-  flightSearchForm: null,
-  orderBy: "economy",
-  hasPromotion: false,
-  selectedFlight: null,
-  searchForm: null,
   loading: true,
   error: null,
+  flightsList: [],
+  hasPromotion: false,
   theme: "dark",
+  isDiscountApllied: false,
 };
 
 export const flightsSlice = createSlice({
@@ -35,32 +30,27 @@ export const flightsSlice = createSlice({
       state.searchForm = action.payload;
     },
     toggleSwitch: (state, action: PayloadAction<any>) => {
-      state.flightsList = state.flightsList.map((item) => {
-        item.fareCategories.BUSINESS.subcategories =
-          item.fareCategories.BUSINESS.subcategories.map((item) => {
-            if (item.brandCode === "ecoFly") {
-              const price = item.price.amount;
+      if (!state.isDiscountApllied) {
+        state.flightsList = state.flightsList.map((item) => {
+          Object.keys(item.fareCategories).forEach((fareCategory) => {
+            item.fareCategories[fareCategory].subcategories =
+              item.fareCategories[fareCategory].subcategories.map((item) => {
+                if (item.brandCode === "ecoFly") {
+                  const price = item.price.amount;
 
-              item.price.amount = price / 2;
-            }
+                  item.price.amount = (price * APP_CONFIG.discount) / 100;
+                }
 
-            return item;
+                return item;
+              });
           });
 
-        item.fareCategories.ECONOMY.subcategories =
-          item.fareCategories.ECONOMY.subcategories.map((item) => {
-            if (item.brandCode === "ecoFly") {
-              const price = item.price.amount;
-
-              item.price.amount = price / 2;
-            }
-            return item;
-          });
-
-        return item;
-      });
+          return item;
+        });
+      }
 
       state.hasPromotion = action.payload;
+      state.isDiscountApllied = true;
     },
     onSelectFlight: (state, action: PayloadAction<any>) => {
       state.selectedFlight = action.payload;

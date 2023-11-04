@@ -1,4 +1,5 @@
 // Types
+import { APP_CONFIG } from "../../AppConfig";
 import { OriginAirport, DestinationAirport } from "../../Types/flights";
 
 interface Props {
@@ -35,7 +36,9 @@ export default function FlightDetails({
       </div>
 
       <div className="w-[250px] pl-20">
-        <p className="text-xs text-gray-500 font-medium">Uçuş Süresi</p>
+        <p className="text-xs text-gray-500 font-medium">
+          {APP_CONFIG.pages.listPage.flightCard.flightDuration}
+        </p>
         <p className="text-xl font-bold">{flightDuration}</p>
       </div>
     </div>

@@ -15,6 +15,7 @@ import {
   PassengerCountForm,
   PassengerCountProps,
 } from "../../../Types/PropTypes/PassengerCountPropType";
+import { APP_CONFIG } from "../../../AppConfig";
 
 export default function PassengerCount({
   icon,
@@ -78,7 +79,9 @@ export default function PassengerCount({
 
       {showDropDown && (
         <PassengerCountDropdown>
-          <p className="text-gray-500 text-md">Kabin ve yolcu seçimi</p>
+          <p className="text-gray-500 text-md">
+            {APP_CONFIG.pages.searchPage.form.passengerCount.title}
+          </p>
 
           <RadioGroup
             onChange={handleRadioGroupChange}
@@ -88,7 +91,10 @@ export default function PassengerCount({
             <RadioButton
               id={FareCategoriesEnum.economy}
               name="fareCategory"
-              label="Economy Class"
+              label={
+                APP_CONFIG.pages.searchPage.form.passengerCount.economyRadio
+                  .label
+              }
               value={FareCategoriesEnum.economy}
               classNames={{
                 labelClasses: "text-xs",
@@ -98,7 +104,10 @@ export default function PassengerCount({
             <RadioButton
               id={FareCategoriesEnum.business}
               name="fareCategory"
-              label="Business Class"
+              label={
+                APP_CONFIG.pages.searchPage.form.passengerCount.businessRadio
+                  .label
+              }
               value={FareCategoriesEnum.business}
               classNames={{
                 labelClasses: "text-xs",
