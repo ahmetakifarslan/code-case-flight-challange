@@ -24,6 +24,10 @@ export default function FlightCardFareCategory({
     ? "ml-auto p-4 min-w-[200px] flex items-center bg-white relative after:absolute after:-bottom-[20px] after:left-0 after:content-[''] after:h-[40px] after:bg-white after:w-full"
     : "ml-auto p-4 min-w-[200px] flex items-center bg-white relative shadow-default";
 
+  const formattedPrice = new Intl.NumberFormat("tr-TR")
+    .format(ecoFly.price.amount)
+    .toString();
+
   return (
     <div className={wrapperClassName}>
       <RadioButton
@@ -42,7 +46,7 @@ export default function FlightCardFareCategory({
         <p className="text-xs text-gray-500">Yolcu Başına</p>
         <p className="font-bold">
           <span className="mr-1">{ecoFly.price.currency}</span>
-          <span>{ecoFly.price.amount}</span>
+          <span>{formattedPrice}</span>
         </p>
       </div>
     </div>

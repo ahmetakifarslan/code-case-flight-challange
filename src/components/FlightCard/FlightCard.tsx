@@ -31,10 +31,8 @@ export default function FlightCard({ flight }: { flight: Flight }) {
     setFareSubcategories(subCategories);
   };
 
-  function handleClick(flight) {
-    console.log(flight);
-    dispatch(onSelectFlight(flight));
-    navigate("/cabin-selection");
+  function handleClick(subcategory: string) {
+    navigate("/cabin-selection", { state: { selectedCategory: subcategory } });
   }
 
   // Todo : geçilen propları referans objelerin kendisiyle değiştir
@@ -67,7 +65,7 @@ export default function FlightCard({ flight }: { flight: Flight }) {
       {fareSubcategories && (
         <FareCategoryDetails
           fareSubcategories={fareSubcategories}
-          onClick={() => handleClick(flight)}
+          onClick={handleClick}
         />
       )}
     </div>

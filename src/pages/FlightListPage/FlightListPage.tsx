@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  simulateGetFlights,
-  toggleSwitch,
-} from "../../Store/Features/Fligths/flightsSlice";
+import { toggleSwitch } from "../../Store/Features/Fligths/flightsSlice";
+import { getFlightsByKeys } from "../../Store/Features/Fligths/getFlightsByKeysThunk";
+import CrossIcon from "../../Assets/Images/Icons/cross.svg?react";
 
 // External Libs
 import * as qs from "qs";
@@ -15,6 +14,7 @@ import Switch from "../../Components/Switch/Switch";
 
 // Utils - Helpers
 import urlController from "../../Utils/Helpers/URLController";
+import { RootState } from "../../Services/StoreService";
 
 export default function FlightListPage() {
   const location = useLocation();
@@ -25,7 +25,7 @@ export default function FlightListPage() {
 
   const navigate = useNavigate();
 
-  const flights = useSelector((state) => state.flights);
+  const flightsData = useSelector((state: RootState) => state.flightsData);
   const hasPromotion = false;
   const dispatch = useDispatch();
 
@@ -34,7 +34,7 @@ export default function FlightListPage() {
   }
 
   useEffect(() => {
-    dispatch(simulateGetFlights(originalAirportValue, destinationAirportValue));
+    dispatch(getFlightsByKeys({ searchParams }));
   }, []);
 
   useEffect(() => {
@@ -43,8 +43,11 @@ export default function FlightListPage() {
       destinationAirportValue,
       passengerCount,
     ];*/
-    if (flights?.flights.length) {
-      const checkedParams = urlController(searchParams, flights.flights);
+    if (flightsData.flightsList.length) {
+      const checkedParams = urlController(
+        searchParams,
+        flightsData.flightsList
+      );
       if (Object.values(checkedParams).includes(undefined)) {
         navigate(`/?${qs.stringify(checkedParams)}`);
       }
@@ -53,13 +56,31 @@ export default function FlightListPage() {
     // if (!isEveryQueryParamSetted) {
     //   navigate("/");
     // }
-  }, [flights, searchParams]);
+  }, [flightsData.flightsList, searchParams]);
 
-  if (flights.error) {
-    return <p>Bir hata oluştu</p>;
+  if (flightsData.error) {
+    return (
+      <div className="p-8">
+        <div className="border-b pb-6 mb-6 flex items-center gap-4">
+          <div className="bg-red-500 p-2 rounded-full">
+            <CrossIcon fill="white" />
+          </div>
+
+          <span className="font-bold">{flightsData.error.message}</span>
+        </div>
+        <div className="flex items-center justify-end">
+          <button
+            onClick={() => navigate("/")}
+            className="bg-red-500 py-2 px-6 text-white font-medium text-sm"
+          >
+            Başa dön
+          </button>
+        </div>
+      </div>
+    );
   }
 
-  if (flights.loading) {
+  if (flightsData.loading) {
     return <p>Yükleniyor</p>;
   }
 
@@ -91,7 +112,7 @@ export default function FlightListPage() {
         </div>
       )}
 
-      <FlightList />
+      <FlightList flightList={flightsData.flightsList} />
     </div>
   );
 }

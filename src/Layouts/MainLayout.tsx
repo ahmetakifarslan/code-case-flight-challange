@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import Header from "../Components/Header/Header";
 
 export default function MainLayout() {
   const location = useLocation();
@@ -20,16 +21,9 @@ export default function MainLayout() {
 
   return (
     <div className="min-h-screen dark:bg-sky-900 dark:text-white dark:border-white">
-      <div className="flex justify-between border-b p-4">
-        <Link to="/">
-          <p className="font-bold">turkishairlines.com</p>
-        </Link>
-        <p>
-          search <span className="font-bold">Flight Challange</span>
-        </p>
-      </div>
+      <Header></Header>
 
-      <div className="lg:w-6/12 mx-auto shadow-default">
+      <div className="lg:w-6/12 mx-auto shadow-default min-h-screen">
         <Outlet></Outlet>
       </div>
     </div>

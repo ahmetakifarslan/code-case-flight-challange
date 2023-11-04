@@ -1,15 +1,16 @@
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Icons
 import CrossIcon from "../../Assets/Images/Icons/cross.svg?react";
 import CheckMarkIcon from "../../Assets/Images/Icons/checkmark.svg?react";
 
 export default function CabinSelectionConfirmationPage() {
-  const status =
-    useSelector((state) => state.flights.selectedFlight.status) || "ERROR";
+  const location = useLocation();
+  const navigate = useNavigate();
+  const selectedCategory = location.state?.selectedCategory;
+  console.log(selectedCategory);
 
-  if (status === "AVAILABLE") {
+  if (selectedCategory.status === "AVAILABLE") {
     return (
       <div className="p-8">
         <div className="border-b pb-6 mb-6 flex items-center gap-4">
@@ -19,14 +20,14 @@ export default function CabinSelectionConfirmationPage() {
         <div className="flex items-center justify-between">
           <span className="text-4xl font-thin">Toplam Tutar</span>{" "}
           <span className="text-3xl text-medium font-medium text-sky-600">
-            TRY 470
+            {selectedCategory.price.currency} {selectedCategory.price.amount}
           </span>
         </div>
       </div>
     );
   }
 
-  if (status === "ERROR") {
+  if (selectedCategory.status === "ERROR") {
     return (
       <div className="p-8">
         <div className="border-b pb-6 mb-6 flex items-center gap-4">
@@ -37,7 +38,10 @@ export default function CabinSelectionConfirmationPage() {
           <span className="font-bold">Kabin seçiminiz tamamlanamadı</span>
         </div>
         <div className="flex items-center justify-end">
-          <button className="bg-red-500 py-2 px-6 text-white font-medium text-sm">
+          <button
+            onClick={() => navigate("/")}
+            className="bg-red-500 py-2 px-6 text-white font-medium text-sm"
+          >
             Başa dön
           </button>
         </div>

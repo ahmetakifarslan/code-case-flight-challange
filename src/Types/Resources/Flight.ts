@@ -4,6 +4,8 @@ export interface Root {
   flights: Flight[];
 }
 
+export type Flights = Flight[];
+
 export interface Flight {
   id: string;
   originAirport: Airport;

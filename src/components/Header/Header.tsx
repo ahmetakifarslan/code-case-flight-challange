@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
-    <div className="flex items-center justify-between border-b-2 border-black">
+    <div className="flex justify-between border-b p-4 mb-8">
       <Link to="/">
-        <p>turkishairlines.com</p>
+        <p className="font-bold">turkishairlines.com</p>
       </Link>
-      <p data-testid="header-test-title">search Flight Challange</p>
+      <p>
+        search <span className="font-bold">Flight Challange</span>
+      </p>
     </div>
   );
 }

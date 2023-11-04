@@ -15,10 +15,9 @@ const sortFunctions = {
     a.arrivalDateTimeDisplay - b.arrivalDateTimeDisplay,
 };
 
-export default function FlightList() {
-  const flights = useSelector((state: any) => state.flights.flights);
+export default function FlightList({ flightList }) {
   const [sortFlightsBy, setSortFlightsBy] = useState("economy");
-  const sortedFlights = [...flights].sort(sortFunctions[sortFlightsBy]);
+  const sortedFlights = [...flightList].sort(sortFunctions[sortFlightsBy]);
 
   function handleClick(params: SortType) {
     setSortFlightsBy(params);

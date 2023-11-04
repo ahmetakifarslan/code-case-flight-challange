@@ -31,6 +31,7 @@ import {
   isValidDestination,
   isValidOrigin,
 } from "../../../Utils/Helpers/Validators";
+import { RootState } from "../../../Services/StoreService";
 
 export interface PassengerCountForm {
   fareCategory: FareCategories;
@@ -39,7 +40,10 @@ export interface PassengerCountForm {
 
 export default function FlightSearchForm() {
   const location = useLocation();
-  const flights = useSelector((state) => state.flights);
+  const flights = useSelector(
+    (state: RootState) => state.flightsData.flightsList
+  );
+
   const searchParams = new URLSearchParams(location.search);
   const originalAirportValue = searchParams.get("from") || "";
   const destinationAirportValue = searchParams.get("to") || "";
@@ -81,7 +85,7 @@ export default function FlightSearchForm() {
       fareCategory: formValues.passengerCountForm.fareCategory,
     });
 
-    const checkedParams = urlController(params, flights.flights);
+    const checkedParams = urlController(params, flights);
     const hasError = Object.values(checkedParams).includes(undefined);
     hasError
       ? openModal("Bir hata algılandı", createModalContent(checkedParams))
