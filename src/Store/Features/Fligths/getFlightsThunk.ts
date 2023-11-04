@@ -9,7 +9,7 @@ export const getFlights = createAsyncThunk<
   { rejectValue: string }
 >("flights/getFlights", async (_, thunkAPI) => {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     data.flights = data.flights.map((item) => {
       return { id: uuidv4(), ...item };
     });

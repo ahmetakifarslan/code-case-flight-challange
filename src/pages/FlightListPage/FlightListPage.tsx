@@ -1,62 +1,53 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSwitch } from "../../Store/Features/Fligths/flightsSlice";
 import { getFlightsByKeys } from "../../Store/Features/Fligths/getFlightsByKeysThunk";
-import CrossIcon from "../../Assets/Images/Icons/cross.svg?react";
-
-// External Libs
-import * as qs from "qs";
 
 // Components
 import FlightList from "../../Components/FlightList/FlightList";
 import Switch from "../../Components/Switch/Switch";
 
+// Images - Icons
+import CrossIcon from "../../Assets/Images/Icons/cross.svg?react";
+
 // Utils - Helpers
-import urlController from "../../Utils/Helpers/URLController";
 import { RootState } from "../../Services/StoreService";
+import useQueryParams from "../../Utils/CustomHooks/useQueryParams";
+import { removeNullParamsFromURL } from "../../Utils/Helpers/RemoveNullParamsFromUrl";
+import Spinner from "../../Components/Spinner/Spinner";
 
 export default function FlightListPage() {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const originalAirportValue = searchParams.get("from");
-  const destinationAirportValue = searchParams.get("to");
-  const passengerCount = searchParams.get("passengerCount");
-
   const navigate = useNavigate();
-
-  const flightsData = useSelector((state: RootState) => state.flightsData);
-  const hasPromotion = false;
   const dispatch = useDispatch();
+  const flightsData = useSelector((state: RootState) => state.flightsData);
+
+  const { from, to, fareCategory, passengerCount, searchParams } =
+    useQueryParams();
 
   function onSwitchChange(switchState: boolean) {
     dispatch(toggleSwitch(switchState));
   }
 
   useEffect(() => {
-    dispatch(getFlightsByKeys({ searchParams }));
+    if (
+      from &&
+      to &&
+      fareCategory &&
+      passengerCount &&
+      passengerCount !== "0"
+    ) {
+      dispatch(getFlightsByKeys({ searchParams }));
+    } else {
+      console.log("passengerCount", passengerCount);
+      removeNullParamsFromURL(searchParams);
+      navigate({ pathname: "/", search: searchParams.toString() });
+    }
   }, []);
 
-  useEffect(() => {
-    /*-  const controlledParams = [
-      originalAirportValue,
-      destinationAirportValue,
-      passengerCount,
-    ];*/
-    if (flightsData.flightsList.length) {
-      const checkedParams = urlController(
-        searchParams,
-        flightsData.flightsList
-      );
-      if (Object.values(checkedParams).includes(undefined)) {
-        navigate(`/?${qs.stringify(checkedParams)}`);
-      }
-    }
-
-    // if (!isEveryQueryParamSetted) {
-    //   navigate("/");
-    // }
-  }, [flightsData.flightsList, searchParams]);
+  if (flightsData.loading) {
+    return <Spinner />;
+  }
 
   if (flightsData.error) {
     return (
@@ -80,26 +71,24 @@ export default function FlightListPage() {
     );
   }
 
-  if (flightsData.loading) {
-    return <p>Yükleniyor</p>;
-  }
-
   return (
     <div>
       <div className="badge bg-red-500 px-12 py-1 w-max text-white mb-2">
         UÇUŞ
       </div>
       <div className="text-3xl text-gray-500 mb-6 capitalize">
-        <span>{originalAirportValue}</span> -{" "}
-        <span>{destinationAirportValue}</span>,{" "}
+        <span>{from}</span> - <span>{to}</span>,
         <span>{passengerCount} yolcu</span>
       </div>
 
       <div className="flex items-center gap-6 mb-3">
         <span>Promosyon kodu</span>
-        <Switch onChange={onSwitchChange} initialState={hasPromotion} />
+        <Switch
+          onChange={onSwitchChange}
+          initialState={flightsData.hasPromotion}
+        />
       </div>
-      {hasPromotion && (
+      {flightsData.hasPromotion && (
         <div className="mb-4">
           <p className="text-sm text-gray-500 mb-1">
             Promosyon kodu seçeneği ile tüm Economy kabini ECO paketlerini %50

@@ -1,4 +1,4 @@
-import { Flight } from "../../Types/Resources/Flight";
+import { Flight } from "../../Types/Flight";
 
 function urlController(params: URLSearchParams, flights: Flight[]) {
   const urlValidation = {

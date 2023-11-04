@@ -6,7 +6,7 @@ export const getFlightsByKeys = createAsyncThunk(
   "flights/getFlightsByKeys",
   async (payload, thunkAPI) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       const originAirportCity = payload.searchParams.get("from");
       const destinationAirportCity = payload.searchParams.get("to");
 

@@ -20,10 +20,10 @@ export default function MainLayout() {
   }, [location]);
 
   return (
-    <div className="min-h-screen dark:bg-sky-900 dark:text-white dark:border-white">
+    <div className="min-h-screen flex flex-col dark:bg-sky-900 dark:text-white dark:border-white">
       <Header></Header>
 
-      <div className="lg:w-6/12 mx-auto shadow-default min-h-screen">
+      <div className="lg:w-8/12 mx-auto flex-1 flex items-stretch justify-center shadow-default mt-8">
         <Outlet></Outlet>
       </div>
     </div>

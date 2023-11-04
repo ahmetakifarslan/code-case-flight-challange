@@ -32,6 +32,7 @@ import {
   isValidOrigin,
 } from "../../../Utils/Helpers/Validators";
 import { RootState } from "../../../Services/StoreService";
+import useQueryParams from "../../../Utils/CustomHooks/useQueryParams";
 
 export interface PassengerCountForm {
   fareCategory: FareCategories;
@@ -39,23 +40,20 @@ export interface PassengerCountForm {
 }
 
 export default function FlightSearchForm() {
-  const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const flights = useSelector(
     (state: RootState) => state.flightsData.flightsList
   );
 
-  const searchParams = new URLSearchParams(location.search);
-  const originalAirportValue = searchParams.get("from") || "";
-  const destinationAirportValue = searchParams.get("to") || "";
-  const passengerCount = searchParams.get("passengerCount") || 1;
-  const fareCategory =
-    searchParams.get("fareCategory") || FareCategoriesEnum.economy;
+  const { from, to, fareCategory, passengerCount } = useQueryParams();
 
-  const originalAirpotInput = useInput<string>(originalAirportValue);
-  const destinationAirportInput = useInput<string>(destinationAirportValue);
+  const originalAirpotInput = useInput<string>(from || "");
+  const destinationAirportInput = useInput<string>(to || "");
   const passengerCountInput = useInput<PassengerCountForm>({
-    fareCategory: fareCategory,
-    passengerCount: passengerCount,
+    fareCategory: fareCategory || FareCategoriesEnum.economy,
+    passengerCount: passengerCount || 1,
   } as PassengerCountForm);
 
   const [modalOptions, setModalOptions] = useState<ModalOptions>({
@@ -63,9 +61,6 @@ export default function FlightSearchForm() {
     isOpen: false,
     children: "",
   });
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -76,8 +71,6 @@ export default function FlightSearchForm() {
       passengerCountForm: passengerCountInput.value,
     };
 
-    dispatch(setFlightForm(formValues));
-
     const params = createSearchParams({
       from: formValues.originalAirportValue,
       to: formValues.destinationAirportValue,
@@ -85,14 +78,16 @@ export default function FlightSearchForm() {
       fareCategory: formValues.passengerCountForm.fareCategory,
     });
 
-    const checkedParams = urlController(params, flights);
-    const hasError = Object.values(checkedParams).includes(undefined);
-    hasError
-      ? openModal("Bir hata algılandı", createModalContent(checkedParams))
-      : navigate({
-          pathname: "flight-list-page",
-          search: params.toString(),
-        });
+    navigate({
+      pathname: "flight-list-page",
+      search: params.toString(),
+    });
+
+    // const checkedParams = urlController(params, flights);
+    // const hasError = Object.values(checkedParams).includes(undefined);
+    // hasError
+    //   ? openModal("Bir hata algılandı", createModalContent(checkedParams))
+    //   :
   }
 
   function openModal(header: string, children: string | ReactNode) {
