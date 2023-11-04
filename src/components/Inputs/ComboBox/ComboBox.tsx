@@ -1,27 +1,20 @@
 import { useState, ChangeEvent } from "react";
-import { Airport, Flight } from "../../../types/flights";
+
+// Components
 import { TextInput } from "../TextInput/TextInput";
 
-interface ComboboxProps<T> {
-  placeholder: string;
-  icon?: React.ReactNode;
-  value: T;
-  name: string;
-  onChange: (e: T) => void;
-  validator?: (value: T) => boolean;
-}
-
-interface ComboboxDropdownProps<T> {
-  dropdownItems: T;
-  selectedIndex: number;
-  onClick: (airport: Airport) => void;
-}
+// Types
+import { Airport, Flight } from "../../../Types/Resources/Flight";
+import {
+  ComboboxProps,
+  ComboBoxDropDownProps,
+} from "../../../Types/PropTypes/ComboBoxPropType";
 
 function ComboBoxDropdown({
   dropdownItems,
   selectedIndex,
   onClick,
-}: ComboboxDropdownProps<Airport[]>) {
+}: ComboBoxDropDownProps<Airport>) {
   console.log(selectedIndex);
   return (
     <ul className="dropdown bg-white text-black">

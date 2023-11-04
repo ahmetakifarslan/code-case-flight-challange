@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Flight } from "../../types/flights";
-import FlightCard from "../FlightCard/FlightCard";
 import { useSelector } from "react-redux";
+
+// Types
+import { Flight } from "../../Types/flights";
+import FlightCard from "../FlightCard/FlightCard";
 
 type SortType = "economy" | "arrivalDateTimeDisplay";
 
@@ -15,7 +17,6 @@ const sortFunctions = {
 
 export default function FlightList() {
   const flights = useSelector((state: any) => state.flights.flights);
-
   const [sortFlightsBy, setSortFlightsBy] = useState("economy");
   const sortedFlights = [...flights].sort(sortFunctions[sortFlightsBy]);
 
@@ -23,8 +24,13 @@ export default function FlightList() {
     setSortFlightsBy(params);
   }
 
+  // useEffect(() => {
+  //   SetlistSortByEconomy(fligts.sort);
+  //   SetlistSortByDate(fligts.sort);
+  // }, [flights]);
+
   return (
-    <div>
+    <>
       <div className="bg-sky-900 text-white p-4 flex gap-2 items-center justify-end">
         <span className="mr-4">Sıralama Kriterleri</span>
         <button
@@ -50,6 +56,6 @@ export default function FlightList() {
           );
         })}
       </ul>
-    </div>
+    </>
   );
 }

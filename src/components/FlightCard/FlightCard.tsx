@@ -1,12 +1,19 @@
 import { useState } from "react";
-import { Flight, Subcategory } from "../../types/flights";
-import { FareCategories, FareCategoriesEnum } from "../../types/constants";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { onSelectFlight } from "../../redux/features/flights/flightsSlice";
-import FlightDetails from "./FlightDetails";
-import FareCategory from "./FareCategory";
-import FareCategoryDetails from "./FareCategoryDetails";
+import { onSelectFlight } from "../../Store/Features/Fligths/flightsSlice";
+
+// Components
+import FlightDetails from "./FlightCardFlightDetails";
+import FareCategory from "./FlightCardFareCategory";
+import FareCategoryDetails from "./FlightCardFareCategoryDetails";
+
+// Types
+import { Flight, Subcategory } from "../../Types/Resources/Flight";
+import {
+  FareCategories,
+  FareCategoriesEnum,
+} from "../../Types/Constants/Constants";
 
 export default function FlightCard({ flight }: { flight: Flight }) {
   const [activeCategory, setActiveCategory] = useState<FareCategories>(
@@ -24,11 +31,13 @@ export default function FlightCard({ flight }: { flight: Flight }) {
     setFareSubcategories(subCategories);
   };
 
-  // function handleClick(flight) {
-  //   console.log(flight);
-  //   dispatch(onSelectFlight(flight));
-  //   navigate("/cabin-selection");
-  // }
+  function handleClick(flight) {
+    console.log(flight);
+    dispatch(onSelectFlight(flight));
+    navigate("/cabin-selection");
+  }
+
+  // Todo : geçilen propları referans objelerin kendisiyle değiştir
 
   return (
     <div className="card">
@@ -40,6 +49,7 @@ export default function FlightCard({ flight }: { flight: Flight }) {
           originAirport={flight.originAirport}
           flightDuration={flight.flightDuration}
         ></FlightDetails>
+
         <FareCategory
           fareCategory={flight.fareCategories.ECONOMY}
           activeCategory={activeCategory}
@@ -55,7 +65,10 @@ export default function FlightCard({ flight }: { flight: Flight }) {
       </div>
 
       {fareSubcategories && (
-        <FareCategoryDetails fareSubcategories={fareSubcategories} />
+        <FareCategoryDetails
+          fareSubcategories={fareSubcategories}
+          onClick={() => handleClick(flight)}
+        />
       )}
     </div>
   );

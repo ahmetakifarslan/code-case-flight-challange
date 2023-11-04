@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux";
-
-import CrossIcon from "../../components/Icons/CrossIcon";
 import { Navigate } from "react-router-dom";
-import CheckMarkIcon from "../../components/Icons/CheckMark";
+
+// Icons
+import CrossIcon from "../../Assets/Images/Icons/cross.svg?react";
+import CheckMarkIcon from "../../Assets/Images/Icons/checkmark.svg?react";
 
 export default function CabinSelectionConfirmationPage() {
   const status =

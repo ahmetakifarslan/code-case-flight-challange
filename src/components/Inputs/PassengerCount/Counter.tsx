@@ -1,10 +1,5 @@
-import { MouseEvent } from "react";
+import { CounterProps } from "../../../Types/PropTypes/CounterPropType";
 
-interface CounterProps {
-  count: number;
-  increaseFn: (event: MouseEvent<HTMLElement>) => void;
-  decreaseFn: (event: MouseEvent<HTMLElement>) => void;
-}
 export default function Counter({
   count,
   increaseFn,

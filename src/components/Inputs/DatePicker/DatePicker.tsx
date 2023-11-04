@@ -1,7 +1,4 @@
-interface DatePickerProps {
-  label: string;
-  icon?: React.ReactNode;
-}
+import { DatePickerProps } from "../../../Types/PropTypes/DatePickerPropType";
 
 export default function DatePicker({ icon, label }: DatePickerProps) {
   return (

@@ -6,9 +6,7 @@ export default function Header() {
       <Link to="/">
         <p>turkishairlines.com</p>
       </Link>
-      <p>
-        search <span>Flight Challange</span>
-      </p>
+      <p data-testid="header-test-title">search Flight Challange</p>
     </div>
   );
 }

@@ -1,12 +1,20 @@
-import FlightList from "../../components/FlightList/FlightList";
-import Switch from "../../components/Switch/Switch";
+import { useEffect } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   simulateGetFlights,
   toggleSwitch,
-} from "../../redux/features/flights/flightsSlice";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+} from "../../Store/Features/Fligths/flightsSlice";
+
+// External Libs
+import * as qs from "qs";
+
+// Components
+import FlightList from "../../Components/FlightList/FlightList";
+import Switch from "../../Components/Switch/Switch";
+
+// Utils - Helpers
+import urlController from "../../Utils/Helpers/URLController";
 
 export default function FlightListPage() {
   const location = useLocation();
@@ -24,22 +32,28 @@ export default function FlightListPage() {
   function onSwitchChange(switchState: boolean) {
     dispatch(toggleSwitch(switchState));
   }
-  console.log(originalAirportValue, destinationAirportValue, passengerCount);
+
   useEffect(() => {
-    const controlledParams = [
+    dispatch(simulateGetFlights(originalAirportValue, destinationAirportValue));
+  }, []);
+
+  useEffect(() => {
+    /*-  const controlledParams = [
       originalAirportValue,
       destinationAirportValue,
       passengerCount,
-    ];
-
-    const isEveryQueryParamSetted = controlledParams.every((item) => !!item);
-
-    if (!isEveryQueryParamSetted) {
-      navigate("/");
+    ];*/
+    if (flights?.flights.length) {
+      const checkedParams = urlController(searchParams, flights.flights);
+      if (Object.values(checkedParams).includes(undefined)) {
+        navigate(`/?${qs.stringify(checkedParams)}`);
+      }
     }
 
-    dispatch(simulateGetFlights(originalAirportValue, destinationAirportValue));
-  }, []);
+    // if (!isEveryQueryParamSetted) {
+    //   navigate("/");
+    // }
+  }, [flights, searchParams]);
 
   if (flights.error) {
     return <p>Bir hata oluştu</p>;

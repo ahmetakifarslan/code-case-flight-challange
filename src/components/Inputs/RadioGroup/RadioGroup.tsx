@@ -1,12 +1,5 @@
-import React, { ChangeEvent, ReactElement } from "react";
-import { RadioButtonProps } from "../RadioButton/RadioButton";
-
-interface RadioGroupProps {
-  selectedValue: string;
-  wrapperClasses?: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  children: ReactElement<RadioButtonProps>[];
-}
+import React, { ChangeEvent } from "react";
+import { RadioGroupProps } from "../../../Types/PropTypes/RadioGroupPropType";
 
 export default function RadioGroup({
   selectedValue,

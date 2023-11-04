@@ -1,28 +1,27 @@
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
-import { FareCategories, FareCategoriesEnum } from "../../../types/constants";
+
+// Components
+import RadioGroup from "../RadioGroup/RadioGroup";
 import RadioButton from "../RadioButton/RadioButton";
 import Counter from "./Counter";
-import RadioGroup from "../RadioGroup/RadioGroup";
 import PassengerCountDropdown from "./PassengerCountDropdown";
 
-export interface PassengerCountForm {
-  fareCategory: FareCategories;
-  passengerCount: number;
-}
-
-interface PasengerCountProps {
-  icon?: React.ReactNode;
-  fareCategory: FareCategories;
-  passengerCount: number;
-  onChange: (form: PassengerCountForm) => void;
-}
+// Types
+import {
+  FareCategories,
+  FareCategoriesEnum,
+} from "../../../Types/Constants/Constants";
+import {
+  PassengerCountForm,
+  PassengerCountProps,
+} from "../../../Types/PropTypes/PassengerCountPropType";
 
 export default function PassengerCount({
   icon,
   onChange,
   passengerCount,
   fareCategory,
-}: PasengerCountProps) {
+}: PassengerCountProps<PassengerCountForm>) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [showDropDown, setShowDropdown] = useState(false);
 

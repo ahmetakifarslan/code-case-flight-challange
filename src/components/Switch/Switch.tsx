@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { SwitchProps } from "../../Types/PropTypes/SwitchPropType";
 
-const Switch = ({ onChange, initialState }) => {
+const Switch = ({ onChange, initialState }: SwitchProps) => {
   const [isOn, setIsOn] = useState(initialState);
 
   const toggleSwitch = () => {

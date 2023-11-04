@@ -1,20 +1,5 @@
-import { ChangeEvent, ReactNode } from "react";
-
-interface TextInputProps {
-  id?: string;
-  name: string;
-  label: string | ReactNode;
-  value: string;
-  placeholder: string;
-  classNames?: {
-    wrapperClasses?: string;
-    inputClasses?: string;
-    labelClasses?: string;
-  };
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  validator?: (value: string) => boolean;
-  onKeyDown: (event: any) => void;
-}
+import { ChangeEvent } from "react";
+import { TextInputProps } from "../../../Types/PropTypes/TextInputPropType";
 
 export function TextInput({
   id,
