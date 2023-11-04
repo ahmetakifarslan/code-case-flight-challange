@@ -51,7 +51,7 @@ export default function FlightListPage() {
 
   if (flightsData.error) {
     return (
-      <div className="p-8">
+      <div className="p-8 shadow-default">
         <div className="border-b pb-6 mb-6 flex items-center gap-4">
           <div className="bg-red-500 p-2 rounded-full">
             <CrossIcon fill="white" />
@@ -72,7 +72,7 @@ export default function FlightListPage() {
   }
 
   return (
-    <div>
+    <div className="shadow-default px-8 py-4 mb-12">
       <div className="badge bg-red-500 px-12 py-1 w-max text-white mb-2">
         UÇUŞ
       </div>

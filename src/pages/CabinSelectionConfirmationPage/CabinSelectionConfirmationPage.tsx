@@ -12,7 +12,7 @@ export default function CabinSelectionConfirmationPage() {
 
   if (selectedCategory.status === "AVAILABLE") {
     return (
-      <div className="p-8">
+      <div className="p-8 w-8/12 shadow-default h-max">
         <div className="border-b pb-6 mb-6 flex items-center gap-4">
           <CheckMarkIcon fill="green" width={"2rem"} height={"2rem"} />
           <span className="font-bold">Kabin seçiminiz tamamlanamadı</span>
@@ -29,7 +29,7 @@ export default function CabinSelectionConfirmationPage() {
 
   if (selectedCategory.status === "ERROR") {
     return (
-      <div className="p-8">
+      <div className="p-8 w-8/12 shadow-default h-max">
         <div className="border-b pb-6 mb-6 flex items-center gap-4">
           <div className="bg-red-500 p-2 rounded-full">
             <CrossIcon fill="white" />

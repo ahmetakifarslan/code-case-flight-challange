@@ -23,7 +23,7 @@ export default function MainLayout() {
     <div className="min-h-screen flex flex-col dark:bg-sky-900 dark:text-white dark:border-white">
       <Header></Header>
 
-      <div className="lg:w-8/12 mx-auto flex-1 flex items-stretch justify-center shadow-default mt-8">
+      <div className="mx-auto flex-1 flex items-stretch justify-center mt-8 min-w-[80%]">
         <Outlet></Outlet>
       </div>
     </div>
