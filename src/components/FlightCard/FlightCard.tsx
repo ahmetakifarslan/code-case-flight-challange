@@ -80,6 +80,7 @@ export default function FlightCard({ flight }: FlightCardNameSpace.Props) {
             return (
               <FareCategory
                 key={fareCategory}
+                radioGroupName={flight.id}
                 categoryName={FareCategoriesEnum[fareCategory]}
                 activeCategory={category}
                 fareCategory={flight.fareCategories[fareCategory]}

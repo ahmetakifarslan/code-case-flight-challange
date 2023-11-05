@@ -11,6 +11,7 @@ export default function FlightCardFareCategory({
   categoryName,
   activeCategory,
   fareCategory,
+  radioGroupName,
   onClick,
 }: FlightCardNameSpace.FlightCardFareCategoryProps) {
   const brandCodeQuery = "ecoFly";
@@ -21,22 +22,19 @@ export default function FlightCardFareCategory({
   if (ecoFly) {
     const isActiveCategory = activeCategory === categoryName;
     const wrapperClassName = isActiveCategory
-      ? "ml-auto p-4 min-w-[200px] flex items-center bg-white relative after:absolute after:-bottom-[20px] after:left-0 after:content-[''] after:h-[40px] after:bg-white after:w-full"
-      : "ml-auto p-4 min-w-[200px] flex items-center bg-white relative shadow-default";
+      ? "cursor-pointer ml-auto p-4 min-w-[200px] flex items-center bg-white relative after:absolute after:-bottom-[20px] after:left-0 after:content-[''] after:h-[40px] after:bg-white after:w-full"
+      : "cursor-pointer ml-auto p-4 min-w-[200px] flex items-center bg-white relative shadow-default";
 
     const formattedPrice = formatPrice(ecoFly.price.amount).toString();
 
     return (
-      <div className={wrapperClassName}>
+      <div className={wrapperClassName} onClick={() => onClick(categoryName)}>
         <RadioButton
           id={categoryName}
-          name="fareCategory"
+          name={radioGroupName}
           label={categoryName}
           value={categoryName}
           checked={isActiveCategory}
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            onClick(event.target.value as FareCategories)
-          }
           classNames={{
             labelClasses:
               "ml-1 text-sm text-gray-500 font-medium underline underline-offset-4",

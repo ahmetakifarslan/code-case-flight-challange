@@ -18,6 +18,7 @@ export namespace FlightCardNameSpace {
     activeCategory: FareCategories;
     categoryName: FareCategories;
     fareCategory: ECONOMY | BUSINESS;
+    radioGroupName: string;
     onClick: (fareCategory: FareCategories) => void;
   }
 
