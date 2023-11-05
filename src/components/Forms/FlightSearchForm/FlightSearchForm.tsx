@@ -228,27 +228,6 @@ export default function FlightSearchForm() {
           })}
         </ul>
       </form>
-
-      {modalOptions.isOpen &&
-        createPortal(
-          <Modal
-            {...modalOptions}
-            onClose={() => setModalOptions({ isOpen: false })}
-          >
-            <div>
-              <ul>
-                {formErrorMessages.map((errorMessage, index) => {
-                  return (
-                    <li key={index} className="text-sm text-right ">
-                      {errorMessage}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </Modal>,
-          document.body
-        )}
     </>
   );
 }
