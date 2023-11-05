@@ -7,7 +7,7 @@ export default function PassengerCountDropdown({
   return (
     <div className="overlay absolute w-full mt-3 left-1/2 -translate-x-2/4 bg-white shadow-md p-4 top-full">
       <ToolTipArrowIcon
-        className="absolute text-white h-4 bottom-full rotate-180"
+        className="absolute text-white h-4 bottom-full rotate-180 fill-white"
         style={{ left: 150 }}
       />
       {children}
