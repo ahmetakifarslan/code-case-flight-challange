@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import FlightDetails from "./FlightCardFlightDetails";
 import FareCategory from "./FlightCardFareCategory";
@@ -13,8 +13,12 @@ import {
 
 import { APP_CONFIG } from "../../AppConfig";
 import { FlightCardNameSpace } from "../../Types/PropTypes/FlightCardPropType";
+import { formatPrice } from "../../Utils/Helpers/FormatPrice";
 
 export default function FlightCard({ flight }: FlightCardNameSpace.Props) {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const passengerCountParam = searchParams.get("passengerCount");
   const [category, setCategory] = useState<FareCategories>(
     "" as FareCategories
   );
@@ -28,9 +32,20 @@ export default function FlightCard({ flight }: FlightCardNameSpace.Props) {
     setSubCategories(subCategories);
   };
 
-  function handleSubcategoryClick(subcategory: string) {
+  function handleSubcategoryClick(subcategory: Subcategory) {
+    const passengerCount = Number(passengerCountParam);
+    const newPriceAmount = subcategory.price.amount * passengerCount;
+
+    const updatedSubCategory = {
+      ...subcategory,
+      price: {
+        ...subcategory.price,
+        amount: formatPrice(newPriceAmount),
+      },
+    };
+
     navigate(APP_CONFIG.lang.tr.pages.cabinSelectionPage.route, {
-      state: { selectedCategory: subcategory },
+      state: { selectedCategory: updatedSubCategory },
     });
   }
 

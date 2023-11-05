@@ -5,6 +5,7 @@ import { APP_CONFIG } from "../../AppConfig";
 import { Subcategory } from "../../Types/Resources/Flight";
 import { ChangeEvent } from "react";
 import { FareCategories } from "../../Types/Constants/Constants";
+import { formatPrice } from "../../Utils/Helpers/FormatPrice";
 
 export default function FlightCardFareCategory({
   categoryName,
@@ -23,9 +24,7 @@ export default function FlightCardFareCategory({
       ? "ml-auto p-4 min-w-[200px] flex items-center bg-white relative after:absolute after:-bottom-[20px] after:left-0 after:content-[''] after:h-[40px] after:bg-white after:w-full"
       : "ml-auto p-4 min-w-[200px] flex items-center bg-white relative shadow-default";
 
-    const formattedPrice = new Intl.NumberFormat("tr-TR")
-      .format(ecoFly.price.amount)
-      .toString();
+    const formattedPrice = formatPrice(ecoFly.price.amount).toString();
 
     return (
       <div className={wrapperClassName}>
