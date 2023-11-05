@@ -1,31 +1,24 @@
-export function applyDiscount(data, discountRate) {
-  // flights dizisini dön
-  const updatedFlights = data.map((flight) => {
-    // fareCategories nesnesini dön
-    const updatedFareCategories = { ...flight.fareCategories };
+import { Flight, Flights } from "../../Types/Resources/Flight";
 
-    for (const category in updatedFareCategories) {
-      // Her kategori altındaki subcategories dizisini dön
-      const updatedSubcategories = updatedFareCategories[
-        category
+export function applyDiscountByRate(
+  flightsList: Flights,
+  discountRate: number
+): Flight[] {
+  const discountedFlights = JSON.parse(JSON.stringify(flightsList));
+  discountedFlights.map((flight: Flight) => {
+    Object.keys(flight.fareCategories).forEach((fareCategory) => {
+      flight.fareCategories[fareCategory].subcategories = flight.fareCategories[
+        fareCategory
       ].subcategories.map((subcategory) => {
-        // brandCode'u 'ecoFly' olanı bul
         if (subcategory.brandCode === "ecoFly") {
-          // price nesnesini kopyala ve indirimi uygula
-          const updatedPrice = {
-            ...subcategory.price,
-            amount: subcategory.price.amount * (1 - discountRate),
-          };
-          return { ...subcategory, price: updatedPrice };
+          const price = subcategory.price.amount;
+          subcategory.price.amount = price * discountRate;
         }
         return subcategory;
       });
-
-      updatedFareCategories[category].subcategories = updatedSubcategories;
-    }
-
-    return { ...flight, fareCategories: updatedFareCategories };
+    });
+    return flight;
   });
 
-  return { ...data, flights: updatedFlights };
+  return discountedFlights;
 }

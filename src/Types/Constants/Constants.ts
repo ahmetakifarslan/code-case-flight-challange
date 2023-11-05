@@ -4,8 +4,8 @@ export enum FareCategoryStatusEnum {
 }
 
 export enum FareCategoriesEnum {
-  economy = "ECONOMY",
-  business = "BUSINESS",
+  ECONOMY = "ECONOMY",
+  BUSINESS = "BUSINESS",
 }
 
 export type FareCategoryStatus =
@@ -13,5 +13,5 @@ export type FareCategoryStatus =
   | FareCategoryStatusEnum.error;
 
 export type FareCategories =
-  | FareCategoriesEnum.economy
-  | FareCategoriesEnum.business;
+  | FareCategoriesEnum.ECONOMY
+  | FareCategoriesEnum.BUSINESS;

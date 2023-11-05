@@ -1,10 +1,40 @@
-import { FareCategoryStatus } from "../Constants/Constants";
-
-export interface Root {
-  flights: Flight[];
+export interface Airport {
+  name: string;
+  code: string;
+  city: {
+    code: string;
+    name: string;
+  };
+  country: {
+    code: string;
+    name: string;
+  };
 }
 
-export type Flights = Flight[];
+// TODO: Subcategory => FlightOption
+export interface Subcategory {
+  brandCode: string;
+  price: {
+    amount: number;
+    currency: string;
+  };
+  order: number;
+  status: "AVAILABLE" | "ERROR";
+  rights: string[];
+}
+
+export interface ECONOMY {
+  subcategories: Subcategory[];
+}
+
+export interface BUSINESS {
+  subcategories: Subcategory[];
+}
+
+export interface FareCategory {
+  ECONOMY: ECONOMY;
+  BUSINESS: BUSINESS;
+}
 
 export interface Flight {
   id: string;
@@ -13,48 +43,7 @@ export interface Flight {
   arrivalDateTimeDisplay: string;
   departureDateTimeDisplay: string;
   flightDuration: string;
-  fareCategories: FareCategories;
+  fareCategories: FareCategory;
 }
-
-export interface Airport {
-  name: string;
-  code: string;
-  city: City;
-  country: Country;
-}
-
-export interface City {
-  code: string;
-  name: string;
-}
-
-export interface Country {
-  code: string;
-  name: string;
-}
-
-export interface FareCategories {
-  BUSINESS: Business;
-  ECONOMY: Economy;
-}
-
-export interface Business {
-  subcategories: Subcategory[];
-}
-
-export interface Economy {
-  subcategories: Subcategory[];
-}
-
-export interface Subcategory {
-  brandCode: string;
-  price: Price;
-  order: number;
-  status: FareCategoryStatus;
-  rights: string[];
-}
-
-export interface Price {
-  amount: number;
-  currency: string;
-}
+// TODO: Flights => FlightList
+export type Flights = Flight[];

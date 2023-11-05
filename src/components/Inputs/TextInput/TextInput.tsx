@@ -23,7 +23,7 @@ export function TextInput({
 
   return (
     <div className={wrapperClasses}>
-      <label className={labelClasses} htmlFor="">
+      <label className={labelClasses} htmlFor={id}>
         {label}
       </label>
       <input

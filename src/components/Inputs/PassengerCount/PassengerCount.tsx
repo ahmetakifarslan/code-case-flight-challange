@@ -80,7 +80,10 @@ export default function PassengerCount({
       {showDropDown && (
         <PassengerCountDropdown>
           <p className="text-gray-500 text-md">
-            {APP_CONFIG.pages.searchPage.form.passengerCount.title}
+            {
+              APP_CONFIG.lang.tr.pages.searchPage.staticTexts.form
+                .passengerCount.title
+            }
           </p>
 
           <RadioGroup
@@ -89,26 +92,26 @@ export default function PassengerCount({
             wrapperClasses="my-3"
           >
             <RadioButton
-              id={FareCategoriesEnum.economy}
+              id={FareCategoriesEnum.ECONOMY}
               name="fareCategory"
               label={
-                APP_CONFIG.pages.searchPage.form.passengerCount.economyRadio
-                  .label
+                APP_CONFIG.lang.tr.pages.searchPage.staticTexts.form
+                  .passengerCount.economyRadio.label
               }
-              value={FareCategoriesEnum.economy}
+              value={FareCategoriesEnum.ECONOMY}
               classNames={{
                 labelClasses: "text-xs",
               }}
             />
 
             <RadioButton
-              id={FareCategoriesEnum.business}
+              id={FareCategoriesEnum.BUSINESS}
               name="fareCategory"
               label={
-                APP_CONFIG.pages.searchPage.form.passengerCount.businessRadio
-                  .label
+                APP_CONFIG.lang.tr.pages.searchPage.staticTexts.form
+                  .passengerCount.businessRadio.label
               }
-              value={FareCategoriesEnum.business}
+              value={FareCategoriesEnum.BUSINESS}
               classNames={{
                 labelClasses: "text-xs",
               }}

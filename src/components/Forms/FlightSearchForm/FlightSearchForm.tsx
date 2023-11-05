@@ -1,8 +1,7 @@
 import { FormEvent, ReactNode, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
-import { setFlightForm } from "../../../Store/Features/Fligths/flightsSlice";
 
 // Components
 import ComboBox from "../../Inputs/ComboBox/ComboBox";
@@ -26,7 +25,7 @@ import {
 
 // Utils - Helpers
 import useInput from "../../../Utils/CustomHooks/useInput";
-import urlController from "../../../Utils/Helpers/URLController";
+
 import {
   isValidDestination,
   isValidOrigin,
@@ -53,7 +52,7 @@ export default function FlightSearchForm() {
   const originalAirpotInput = useInput<string>(from || "");
   const destinationAirportInput = useInput<string>(to || "");
   const passengerCountInput = useInput<PassengerCountForm>({
-    fareCategory: fareCategory || FareCategoriesEnum.economy,
+    fareCategory: fareCategory || FareCategoriesEnum.ECONOMY,
     passengerCount: passengerCount || 1,
   } as PassengerCountForm);
 
@@ -80,15 +79,9 @@ export default function FlightSearchForm() {
     });
 
     navigate({
-      pathname: APP_CONFIG.pages.listPage.route,
+      pathname: APP_CONFIG.lang.tr.pages.listPage.route,
       search: params.toString(),
     });
-
-    // const checkedParams = urlController(params, flights);
-    // const hasError = Object.values(checkedParams).includes(undefined);
-    // hasError
-    //   ? openModal("Bir hata algılandı", createModalContent(checkedParams))
-    //   :
   }
 
   function openModal(header: string, children: string | ReactNode) {
@@ -125,7 +118,10 @@ export default function FlightSearchForm() {
         <div className="form-field flex-0 bg-white 16">
           <ComboBox
             name="originAirport"
-            placeholder={APP_CONFIG.pages.searchPage.form.from.placeholder}
+            placeholder={
+              APP_CONFIG.lang.tr.pages.searchPage.staticTexts.form.from
+                .placeholder
+            }
             icon={
               <AirPlaneLandingIcon
                 width="1.5rem"
@@ -141,7 +137,10 @@ export default function FlightSearchForm() {
         <div className="form-field flex-0  bg-white 16">
           <ComboBox
             name="destinationAirport"
-            placeholder={APP_CONFIG.pages.searchPage.form.to.placeholder}
+            placeholder={
+              APP_CONFIG.lang.tr.pages.searchPage.staticTexts.form.to
+                .placeholder
+            }
             icon={
               <AirPlaneTakeOffIcon
                 width="1.5rem"
@@ -157,7 +156,9 @@ export default function FlightSearchForm() {
         <div className="flex gap-2 relative">
           <div className="form-field w-[100px] bg-blue-950 16">
             <DatePicker
-              label={APP_CONFIG.pages.searchPage.form.date.label}
+              label={
+                APP_CONFIG.lang.tr.pages.searchPage.staticTexts.form.date.label
+              }
               icon={<DatePickerIcon width="2rem" height="2rem" fill="white" />}
             />
           </div>

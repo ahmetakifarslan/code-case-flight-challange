@@ -9,7 +9,10 @@ export default function Counter({
   return (
     <div className="flex justify-between items-center ">
       <p className="text-md">
-        {APP_CONFIG.pages.searchPage.form.passengerCount.passengerCountLabel}
+        {
+          APP_CONFIG.lang.tr.pages.searchPage.staticTexts.form.passengerCount
+            .passengerCountLabel
+        }
       </p>
       <div className="flex items-center">
         <button

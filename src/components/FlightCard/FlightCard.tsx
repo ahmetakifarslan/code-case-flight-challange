@@ -12,33 +12,41 @@ import {
   FareCategories,
   FareCategoriesEnum,
 } from "../../Types/Constants/Constants";
+
+// Config
 import { APP_CONFIG } from "../../AppConfig";
 
 export default function FlightCard({ flight }: { flight: Flight }) {
-  const [activeCategory, setActiveCategory] = useState<FareCategories>(
+  const [category, setCategory] = useState<FareCategories>(
     "" as FareCategories
   );
-  const [fareSubcategories, setFareSubcategories] =
-    useState<Subcategory | null>(null);
+  const [subCategories, setSubCategories] = useState<Subcategory[]>([]);
 
   const navigate = useNavigate();
 
-  const handleFareCategoryChange = (category: FareCategories) => {
-    setActiveCategory(category);
+  const selectCategory = (category: FareCategories) => {
+    setCategory(category);
     const subCategories = flight.fareCategories[category].subcategories;
-    setFareSubcategories(subCategories);
+    setSubCategories(subCategories);
   };
 
-  function handleClick(subcategory: string) {
-    navigate(APP_CONFIG.pages.cabinSelectionPage.route, {
+  function handleSubcategoryClick(subcategory: string) {
+    navigate(APP_CONFIG.lang.tr.pages.cabinSelectionPage.route, {
       state: { selectedCategory: subcategory },
     });
   }
 
+  function compareFareCategories(a: FareCategories, b: FareCategories) {
+    if (a === FareCategoriesEnum.ECONOMY && b === FareCategoriesEnum.BUSINESS) {
+      return -1;
+    }
+    return 0;
+  }
+
   useEffect(() => {
-    if (activeCategory) {
-      const subCategories = flight.fareCategories[activeCategory].subcategories;
-      setFareSubcategories(subCategories);
+    if (category) {
+      const subCategories = flight.fareCategories[category].subcategories;
+      setSubCategories(subCategories);
     }
   }, [flight]);
 
@@ -53,24 +61,25 @@ export default function FlightCard({ flight }: { flight: Flight }) {
           flightDuration={flight.flightDuration}
         ></FlightDetails>
 
-        <FareCategory
-          fareCategory={flight.fareCategories.ECONOMY}
-          activeCategory={activeCategory}
-          categoryName={FareCategoriesEnum.economy}
-          onClick={handleFareCategoryChange}
-        ></FareCategory>
-        <FareCategory
-          fareCategory={flight.fareCategories.BUSINESS}
-          activeCategory={activeCategory}
-          categoryName={FareCategoriesEnum.business}
-          onClick={handleFareCategoryChange}
-        ></FareCategory>
+        {(Object.keys(flight.fareCategories) as FareCategories[])
+          .sort(compareFareCategories)
+          .map((fareCategory: FareCategories) => {
+            return (
+              <FareCategory
+                key={fareCategory}
+                categoryName={FareCategoriesEnum[fareCategory]}
+                activeCategory={category}
+                fareCategory={flight.fareCategories[fareCategory]}
+                onClick={selectCategory}
+              />
+            );
+          })}
       </div>
 
-      {fareSubcategories && (
+      {!!subCategories.length && (
         <FareCategoryDetails
-          fareSubcategories={fareSubcategories}
-          onClick={handleClick}
+          fareSubcategories={subCategories}
+          onClick={handleSubcategoryClick}
         />
       )}
     </div>

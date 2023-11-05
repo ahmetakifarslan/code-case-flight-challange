@@ -2,15 +2,15 @@
 import RadioButton from "../Inputs/RadioButton/RadioButton";
 
 // Types
-import { FareCategories as FareCategroyTypes } from "../../Types/Constants/Constants";
-import { Business, Economy } from "../../Types/flights";
+import { FareCategories as FareCategoryTypes } from "../../Types/Constants/Constants";
+import { BUSINESS, ECONOMY } from "../../Types/Resources/Flight";
 import { APP_CONFIG } from "../../AppConfig";
 
 interface Props {
-  activeCategory: FareCategroyTypes;
-  categoryName: FareCategroyTypes;
-  fareCategory: Economy | Business;
-  onClick: (fareCategory: FareCategroyTypes) => void;
+  activeCategory: FareCategoryTypes;
+  categoryName: FareCategoryTypes;
+  fareCategory: BUSINESS | ECONOMY;
+  onClick: (fareCategory: FareCategoryTypes) => void;
 }
 
 export default function FlightCardFareCategory({
@@ -19,7 +19,10 @@ export default function FlightCardFareCategory({
   fareCategory,
   onClick,
 }: Props) {
-  const ecoFly = fareCategory.subcategories[0];
+  const ecoFly = fareCategory.subcategories.find(
+    (subCat) => subCat.brandCode === "ecoFly"
+  );
+
   const isActiveCategory = activeCategory === categoryName;
   const wrapperClassName = isActiveCategory
     ? "ml-auto p-4 min-w-[200px] flex items-center bg-white relative after:absolute after:-bottom-[20px] after:left-0 after:content-[''] after:h-[40px] after:bg-white after:w-full"
@@ -45,7 +48,10 @@ export default function FlightCardFareCategory({
       />
       <div className="text-left ml-4">
         <p className="text-xs text-gray-500">
-          {APP_CONFIG.pages.listPage.flightCard.pricingLabel}
+          {
+            APP_CONFIG.lang.tr.pages.listPage.staticTexts.flightCard
+              .pricingLabel
+          }
         </p>
         <p className="font-bold">
           <span className="mr-1">{ecoFly.price.currency}</span>

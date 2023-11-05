@@ -1,4 +1,4 @@
-import spinner from "../../Assets/Images/spinner.gif";
+import spinner from "../../Assets/Images/Gifs/spinner.gif";
 
 export default function Spinner() {
   return (

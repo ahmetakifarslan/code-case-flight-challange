@@ -4,7 +4,7 @@ import { useState, ChangeEvent } from "react";
 import { TextInput } from "../TextInput/TextInput";
 
 // Types
-import { Airport, Flight, Flights } from "../../../Types/Resources/Flight";
+import { Airport, Flights } from "../../../Types/Resources/Flight";
 import {
   ComboboxProps,
   ComboBoxDropDownProps,
@@ -57,36 +57,34 @@ export default function ComboBox({
       console.log(error);
     }
     onChange(event.target.value);
-    setDropdownItems(getDropdownItems(event.target.value, flightsList));
+    setDropdownItems(getFilteredAirports(event.target.value, flightsList));
   }
 
-  function getDropdownItems(
+  function getFilteredAirports(
     querytext: string,
     flightsList: Flights
   ): Airport[] {
-    const cache = new Map();
+    const filteredAirports = [];
+    const seenAirportNames = new Set();
 
-    const airportNames: string[] = [];
-    const dropDownItems = flightsList.reduce((unique: Airport[], flight) => {
+    for (const flight of flightsList) {
       const airportObj = flight[name];
-      const airportname = airportObj.name.toLowerCase().replace(/\s/g, "");
+
+      const airportName = airportObj.name.toLowerCase().replace(/\s/g, "");
 
       if (
-        airportname.includes(querytext) &&
-        !airportNames.includes(airportObj.name)
+        airportName.includes(querytext) &&
+        !seenAirportNames.has(airportObj.name)
       ) {
-        airportNames.push(airportObj.name);
-        unique.push(airportObj);
+        filteredAirports.push(airportObj);
+        seenAirportNames.add(airportObj.name);
       }
-      return unique;
-    }, []);
+    }
 
-    cache.set(querytext, dropDownItems);
-
-    return querytext !== "" ? dropDownItems : [];
+    return filteredAirports;
   }
 
-  function handleDropdownItemClick(airport: Airport) {
+  function selectAirpor(airport: Airport) {
     onChange(airport.city.name);
     setDropdownItems([]);
   }
@@ -104,7 +102,7 @@ export default function ComboBox({
       if (selectedItemIndex >= 0) {
         event.preventDefault();
         const selectedItem = dropdownItems[selectedItemIndex];
-        handleDropdownItemClick(selectedItem);
+        selectAirpor(selectedItem);
         setSelectedItemIndex(-1);
       }
     }
@@ -130,7 +128,7 @@ export default function ComboBox({
           <ComboBoxDropdown
             dropdownItems={dropdownItems}
             selectedIndex={selectedItemIndex}
-            onClick={handleDropdownItemClick}
+            onClick={selectAirpor}
           />
         </div>
       )}

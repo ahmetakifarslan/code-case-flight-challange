@@ -46,7 +46,10 @@ export default function FareCategoryDetails({
             </ul>
 
             <FlightSelectButton
-              label={APP_CONFIG.pages.listPage.flightCard.selectButtonLabel}
+              label={
+                APP_CONFIG.lang.tr.pages.listPage.staticTexts.flightCard
+                  .selectButtonLabel
+              }
               subCategoryStatus={subCategory.status}
               brandCode={subCategory.brandCode}
               hasPromotion={hasPromotion}

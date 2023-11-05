@@ -1,5 +1,4 @@
 interface Props {
-  subCategoryStatus: "AVAILABLE" | "ERROR";
   brandCode: "ecoFly" | "extraFly" | "primeFly";
   label: string;
   hasPromotion: boolean;
@@ -7,7 +6,6 @@ interface Props {
 }
 
 export default function FlightSelectButton({
-  subCategoryStatus,
   brandCode,
   hasPromotion,
   label,
@@ -16,7 +14,7 @@ export default function FlightSelectButton({
   const isEcoFly = brandCode === "ecoFly";
   const isDisabled = hasPromotion && !isEcoFly;
 
-  const buttonClass = `w-full self-end text-white py-4 font-medium ${
+  const buttonClassName = `w-full self-end text-white py-4 font-medium ${
     isDisabled ? "bg-gray-500 bg-opacity-60" : "bg-red-500"
   }`;
 
@@ -24,7 +22,7 @@ export default function FlightSelectButton({
     <button
       type="button"
       disabled={isDisabled}
-      className={buttonClass}
+      className={buttonClassName}
       onClick={onClick}
     >
       {label}

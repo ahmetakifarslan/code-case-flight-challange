@@ -10,7 +10,7 @@ import { APP_CONFIG } from "../AppConfig";
 
 const routes: RouteObject[] = [
   {
-    path: APP_CONFIG.pages.searchPage.route,
+    path: APP_CONFIG.lang.tr.pages.searchPage.route,
     element: <MainLayout />,
     children: [
       {
@@ -18,13 +18,15 @@ const routes: RouteObject[] = [
         element: <FlightSearchPage />,
       },
       {
-        path: APP_CONFIG.pages.listPage.route,
+        path: APP_CONFIG.lang.tr.pages.listPage.route,
         element: <FlightListPage />,
       },
       {
-        path: APP_CONFIG.pages.cabinSelectionPage.route,
+        path: APP_CONFIG.lang.tr.pages.cabinSelectionPage.route,
         element: <CabinSelectionConfirmationPage />,
-        errorElement: <Navigate to={APP_CONFIG.pages.searchPage.route} />,
+        errorElement: (
+          <Navigate to={APP_CONFIG.lang.tr.pages.searchPage.route} />
+        ),
       },
     ],
   },
