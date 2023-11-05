@@ -1,4 +1,3 @@
-// jest.config.js
 export default {
   verbose: true,
   testEnvironment: "jsdom",
@@ -11,8 +10,6 @@ export default {
   },
   setupFilesAfterEnv: ["<rootDir>src/setupTests.ts"],
   transformIgnorePatterns: [
-    // varsayılan olarak node_modules dışında olan her şeyi transform edin
     "/node_modules/(?!(your-dependency-to-transform)/)",
   ],
-  // Diğer Jest ayarları
 };
