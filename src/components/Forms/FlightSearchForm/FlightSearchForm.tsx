@@ -1,37 +1,29 @@
-import { FormEvent, ReactNode, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createSearchParams, json, useNavigate } from "react-router-dom";
-import { createPortal } from "react-dom";
+import { FormEvent, useState } from "react";
+import { useSelector } from "react-redux";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
-// Components
 import ComboBox from "../../Inputs/ComboBox/ComboBox";
 import DatePicker from "../../Inputs/DatePicker/DatePicker";
 import PassengerCount from "../../Inputs/PassengerCount/PassengerCount";
-import Modal from "../../Modal/Modal";
 
-// Icons
 import AirPlaneLandingIcon from "../../../Assets/Images/Icons/airplane-landing.svg?react";
 import AirPlaneTakeOffIcon from "../../../Assets/Images/Icons/airplane-takeoff.svg?react";
 import DatePickerIcon from "../../../Assets/Images/Icons/date-picker-icon.svg?react";
 import PersonIcon from "../../../Assets/Images/Icons/person.svg?react";
 import RightArrowIcon from "../../../Assets/Images/Icons/arrow-right.svg?react";
 
-// Types
-import { ModalOptions } from "../../../Types/Modal";
 import {
   FareCategories,
   FareCategoriesEnum,
 } from "../../../Types/Constants/Constants";
+import { RootState } from "../../../Services/StoreService";
 
-// Utils - Helpers
+import useQueryParams from "../../../Utils/CustomHooks/useQueryParams";
 import useInput from "../../../Utils/CustomHooks/useInput";
-
 import {
   airportValidator,
   requiredValidator,
 } from "../../../Utils/Helpers/Validators";
-import { RootState } from "../../../Services/StoreService";
-import useQueryParams from "../../../Utils/CustomHooks/useQueryParams";
 import { APP_CONFIG } from "../../../AppConfig";
 
 export interface PassengerCountForm {
@@ -84,13 +76,7 @@ export default function FlightSearchForm() {
       passengerCount: passengerCount || 1,
     } as PassengerCountForm);
 
-  const [modalOptions, setModalOptions] = useState<ModalOptions>({
-    header: "Lütfen formu gözden geçirin",
-    isOpen: false,
-    children: "",
-  });
-
-  const [formErrorMessages, setFormErrorMessages] = useState([]);
+  const [formErrorMessages, setFormErrorMessages] = useState<string[]>([]);
 
   const flights = useSelector(
     (state: RootState) => state.flightsData.flightsList
@@ -128,7 +114,9 @@ export default function FlightSearchForm() {
     setIsFormSubmittedBefore(true);
   }
 
-  function createFormErrorMessages(errorMessages: any[]) {
+  function createFormErrorMessages(
+    errorMessages: Record<string, string>[]
+  ): string[] {
     const formErrorMessages = new Set();
 
     errorMessages.forEach((error) => {
@@ -140,7 +128,7 @@ export default function FlightSearchForm() {
       }
     });
 
-    return [...formErrorMessages];
+    return [...formErrorMessages] as string[];
   }
 
   function handleFormChange() {
