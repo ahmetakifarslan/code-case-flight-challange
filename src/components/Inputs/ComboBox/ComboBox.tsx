@@ -52,7 +52,6 @@ export default function ComboBox({
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     if (validator) {
       setError(!validator(event.target.value));
-      console.log(error);
     }
     onChange(event.target.value);
     setDropdownItems(getFilteredAirports(event.target.value, flightsList));
