@@ -2,6 +2,35 @@
 
 Proje Açıklaması: Bu proje, uçak bileti alımı senaryosunu simüle etmek amacıyla oluşturulmuştur. Geliştirme için Vite kullanılmış olup, React ve TypeScript çerçevesinde bir Single Page Application (SPA) geliştirilmiştir.
 
+## Kriterler
+
+- Uygulama SPA olmalıdır.
+- React, Typescript, Vite ve Tailwind configurasyonları yapılarak geliştirme yapılmalır.
+- Unit test yazılması.En az 3 ayrı sayfa içermelidir. ( Uçuş sorgulama, Uçuş listeleme, Kabin seçimi)
+
+- **Uçuş sorgulama sayfası**
+  - [x] Tarih alanında herhangi bir işlem yapılmayacaktır. Görsel olarak eklenmesi yeterlidir.
+  - [x] Kalkış ve varış noktaları paylaşılan jsonda ki noktalar olduğunda uçuş listeleme sayfasının açılması beklenmektedir.
+  - [x] Jsonda yer almayan kalkış ve varış noktaları denendiğinde uçuş listeleme sayfasının açılmaması beklenmektedir.
+- **Uçuş Listeleme sayfası**
+  - [x] Uçuş Listeleme Sayfası default olarak açıldığında uçuşları eco fly ücretlerine göre sıralanması beklenmektedir.
+  - [x] Sıralama kriteri değiştirildiğinde listelemede ki değişimin gözlemlenmesi beklenmektedir.
+  - [x] **Promosyon kodu aktif olduğunda**.
+  - [x] Eco fly harici tüm economy – business kabinlerde uçuşu seç butonları disable olmalıdır.
+  - [x] Eco fly paketlerde %50 indirim uygulanmalıdır.
+- **Kabin Seçimi sayfası**
+
+  - [x] **Economy-Business kabinlerinin altındaki paketlerden herhangi birinin uçuşu seç butonuna tıklandığında**
+  - [x] status=available ise kabin seçimi tamamlandı,
+  - [x] Status=error ise kabin seçimi tamamlanamadı şeklinde tasarıma uygun görüntülenebilmesi beklenmektedir.
+
+- **Stiller**
+- [ ] Uçuş Sorgulama Sayfası: background-color -> sky-900
+- [ ] Uçuş Sorgulama Sayfası kalkış-varış seçim alanı -> background-color: gray-400 opacity 60%;
+- [ ] Uçuşu Seç button color -> background-color: red-500 ;
+- [ ] Uçuş Listeleme Sayfası shadow -> box-shadow: 0 4px 8px 0 rgba(0,0,0,.05)
+- [ ] Uçuş Listeleme Sayfası paket header color -> background-color: #f9f9f9;
+
 ## Teknolojiler
 
 - React
