@@ -44,7 +44,7 @@ export default function ComboBox({
   name,
   validator,
 }: ComboboxProps<string>) {
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(true);
   const flightsList = useSelector(
     (state: RootState) => state.flightsData.flightsList
   );
@@ -124,7 +124,7 @@ export default function ComboBox({
       />
 
       {!!dropdownItems.length && (
-        <div className="absolute top-full w-full">
+        <div className="absolute top-full w-full z-10">
           <ComboBoxDropdown
             dropdownItems={dropdownItems}
             selectedIndex={selectedItemIndex}

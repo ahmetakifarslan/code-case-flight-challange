@@ -1,6 +1,6 @@
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { createSearchParams, json, useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 
 // Components
@@ -27,8 +27,8 @@ import {
 import useInput from "../../../Utils/CustomHooks/useInput";
 
 import {
-  isValidDestination,
-  isValidOrigin,
+  airportValidator,
+  requiredValidator,
 } from "../../../Utils/Helpers/Validators";
 import { RootState } from "../../../Services/StoreService";
 import useQueryParams from "../../../Utils/CustomHooks/useQueryParams";
@@ -40,21 +40,49 @@ export interface PassengerCountForm {
 }
 
 export default function FlightSearchForm() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const flights = useSelector(
-    (state: RootState) => state.flightsData.flightsList
-  );
-
   const { from, to, fareCategory, passengerCount } = useQueryParams();
+  const [isFormSubmittedBefore, setIsFormSubmittedBefore] = useState(false);
 
-  const originalAirpotInput = useInput<string>(from || "");
-  const destinationAirportInput = useInput<string>(to || "");
-  const passengerCountInput = useInput<PassengerCountForm>({
-    fareCategory: fareCategory || FareCategoriesEnum.ECONOMY,
-    passengerCount: passengerCount || 1,
-  } as PassengerCountForm);
+  const {
+    value: fromInputValue,
+    onChange: onFromInputChange,
+    errors: fromInputErrors,
+    errorMessages: fromInputErrorMessages,
+  } = useInput<string>(from || "", {
+    validators: {
+      required: (value) => requiredValidator(value),
+      locationValidator: (value) =>
+        airportValidator(value, flights, "originAirport"),
+    },
+    errorMessages: {
+      required: "Kalkış noktasını boş bırakamazsınız",
+      locationValidator: "Farklı bir kalkış noktası seçin. Örn; Istanbul",
+    },
+  });
+
+  const {
+    value: toInputValue,
+    onChange: onToInputChange,
+    errors: toInputErrors,
+    errorMessages: toInputErrorMessages,
+  } = useInput<string>(to || "", {
+    validators: {
+      required: (value) => requiredValidator(value),
+      locationValidator: (value) =>
+        airportValidator(value, flights, "destinationAirport"),
+    },
+    errorMessages: {
+      required: "Varış noktasını boş bırakamazsınız",
+      locationValidator: "Farklı bir varış noktası seçin. Örn; Antalya",
+    },
+  });
+
+  const { value: passengerCountForm, onChange: onPassengerCountChange } =
+    useInput<PassengerCountForm>({
+      fareCategory: fareCategory || FareCategoriesEnum.ECONOMY,
+      passengerCount: passengerCount || 1,
+    } as PassengerCountForm);
 
   const [modalOptions, setModalOptions] = useState<ModalOptions>({
     header: "Lütfen formu gözden geçirin",
@@ -62,58 +90,75 @@ export default function FlightSearchForm() {
     children: "",
   });
 
+  const [formErrorMessages, setFormErrorMessages] = useState([]);
+
+  const flights = useSelector(
+    (state: RootState) => state.flightsData.flightsList
+  );
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const formValues = {
-      originalAirportValue: originalAirpotInput.value,
-      destinationAirportValue: destinationAirportInput.value,
-      passengerCountForm: passengerCountInput.value,
-    };
+    const hasErrors =
+      fromInputErrors?.locationValidator ||
+      fromInputErrors?.required ||
+      toInputErrors?.locationValidator ||
+      toInputErrors?.required;
 
-    const params = createSearchParams({
-      from: formValues.originalAirportValue,
-      to: formValues.destinationAirportValue,
-      passengerCount: String(formValues.passengerCountForm.passengerCount),
-      fareCategory: formValues.passengerCountForm.fareCategory,
+    if (hasErrors) {
+      const newFormErrorMessages = createFormErrorMessages([
+        fromInputErrorMessages,
+        toInputErrorMessages,
+      ]);
+      setFormErrorMessages(newFormErrorMessages);
+    } else {
+      const params = createSearchParams({
+        from: fromInputValue,
+        to: toInputValue,
+        passengerCount: String(passengerCountForm.passengerCount),
+        fareCategory: passengerCountForm.fareCategory,
+      });
+
+      navigate({
+        pathname: APP_CONFIG.lang.tr.pages.listPage.route,
+        search: params.toString(),
+      });
+    }
+
+    setIsFormSubmittedBefore(true);
+  }
+
+  function createFormErrorMessages(errorMessages: any[]) {
+    const formErrorMessages = new Set();
+
+    errorMessages.forEach((error) => {
+      const keysOfError = Object.keys(error);
+      if (keysOfError.length) {
+        keysOfError.forEach((key) => {
+          formErrorMessages.add(error[key]);
+        });
+      }
     });
 
-    navigate({
-      pathname: APP_CONFIG.lang.tr.pages.listPage.route,
-      search: params.toString(),
-    });
+    return [...formErrorMessages];
   }
 
-  function openModal(header: string, children: string | ReactNode) {
-    setModalOptions({ header, isOpen: true, children });
-  }
-
-  function closeModal() {
-    setModalOptions({ ...modalOptions, isOpen: false });
-  }
-
-  function createModalContent(checkedParams: any) {
-    const errorMessages = {
-      from: "Nereden bineceğinizi seçmediniz",
-      to: "Nereye gideceğinizi seçmediniz",
-    };
-
-    return (
-      <div>
-        <ul>
-          {Object.entries(checkedParams).map(([key, value]) => {
-            return value === undefined ? <li>{errorMessages[key]}</li> : null;
-          })}
-        </ul>
-      </div>
-    );
+  function handleFormChange() {
+    if (isFormSubmittedBefore) {
+      const newFormErrorMessages = createFormErrorMessages([
+        fromInputErrorMessages,
+        toInputErrorMessages,
+      ]);
+      setFormErrorMessages(newFormErrorMessages);
+    }
   }
 
   return (
     <>
       <form
         onSubmit={handleSubmit}
-        className="bg-gray-500 flex gap-2 p-4 items-stretch text-dark w-max mx-auto flex-nowrap"
+        onChange={handleFormChange}
+        className="bg-gray-500 flex gap-2 p-4 items-stretch text-dark w-max mx-auto flex-nowrap relative"
       >
         <div className="form-field flex-0 bg-white 16">
           <ComboBox
@@ -129,9 +174,8 @@ export default function FlightSearchForm() {
                 fill="text-sky-900"
               />
             }
-            onChange={originalAirpotInput.onChange}
-            value={originalAirpotInput.value}
-            validator={isValidOrigin}
+            onChange={onFromInputChange}
+            value={fromInputValue}
           />
         </div>
         <div className="form-field flex-0  bg-white 16">
@@ -148,9 +192,8 @@ export default function FlightSearchForm() {
                 fill="text-sky-900"
               />
             }
-            onChange={destinationAirportInput.onChange}
-            value={destinationAirportInput.value}
-            validator={isValidDestination}
+            onChange={onToInputChange}
+            value={toInputValue}
           ></ComboBox>
         </div>
         <div className="flex gap-2 relative">
@@ -165,20 +208,45 @@ export default function FlightSearchForm() {
           <div className="form-field w-[100px] bg-blue-950 16">
             <PassengerCount
               icon={<PersonIcon width="2rem" height="2rem" fill="white" />}
-              onChange={passengerCountInput.onChange}
-              fareCategory={passengerCountInput.value.fareCategory}
-              passengerCount={Number(passengerCountInput.value.passengerCount)}
+              onChange={onPassengerCountChange}
+              fareCategory={passengerCountForm.fareCategory}
+              passengerCount={Number(passengerCountForm.passengerCount)}
             />
           </div>
-
-          <button type="submit" className="bg-red-400 p-4 16">
-            <RightArrowIcon />
-          </button>
         </div>
+
+        <button type="submit" className="bg-red-400 p-4 16">
+          <RightArrowIcon />
+        </button>
+        <ul className="absolute top-full right-4 mt-2">
+          {formErrorMessages.map((errorMessage, index) => {
+            return (
+              <li key={index} className="text-sm text-right ">
+                {errorMessage}
+              </li>
+            );
+          })}
+        </ul>
       </form>
+
       {modalOptions.isOpen &&
         createPortal(
-          <Modal {...modalOptions} onClose={closeModal} />,
+          <Modal
+            {...modalOptions}
+            onClose={() => setModalOptions({ isOpen: false })}
+          >
+            <div>
+              <ul>
+                {formErrorMessages.map((errorMessage, index) => {
+                  return (
+                    <li key={index} className="text-sm text-right ">
+                      {errorMessage}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </Modal>,
           document.body
         )}
     </>
