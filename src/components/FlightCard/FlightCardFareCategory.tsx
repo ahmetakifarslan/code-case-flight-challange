@@ -3,8 +3,6 @@ import RadioButton from "../Inputs/RadioButton/RadioButton";
 import { FlightCardNameSpace } from "../../Types/PropTypes/FlightCardPropType";
 import { APP_CONFIG } from "../../AppConfig";
 import { Subcategory } from "../../Types/Resources/Flight";
-import { ChangeEvent } from "react";
-import { FareCategories } from "../../Types/Constants/Constants";
 import { formatPrice } from "../../Utils/Helpers/FormatPrice";
 
 export default function FlightCardFareCategory({
