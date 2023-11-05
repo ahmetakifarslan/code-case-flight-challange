@@ -11,15 +11,18 @@ export interface Airport {
   };
 }
 
+export type SubcategoryBrandCode = "ecoFly" | "extraFly" | "primeFly";
+export type SubcategoryStatus = "AVAILABLE" | "ERROR";
+
 // TODO: Subcategory => FlightOption
 export interface Subcategory {
-  brandCode: string;
+  brandCode: SubcategoryBrandCode;
   price: {
     amount: number;
     currency: string;
   };
   order: number;
-  status: "AVAILABLE" | "ERROR";
+  status: SubcategoryStatus;
   rights: string[];
 }
 
@@ -45,5 +48,6 @@ export interface Flight {
   flightDuration: string;
   fareCategories: FareCategory;
 }
+
 // TODO: Flights => FlightList
 export type Flights = Flight[];

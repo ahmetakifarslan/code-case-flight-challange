@@ -1,14 +1,6 @@
-// Types
 import { APP_CONFIG } from "../../AppConfig";
+import { FlightCardNameSpace } from "../../Types/PropTypes/FlightCardPropType";
 import { Airport } from "../../Types/Resources/Flight";
-
-interface Props {
-  arrivalDateTimeDisplay: string;
-  departureDateTimeDisplay: string;
-  flightDuration: string;
-  originAirport: Airport;
-  destinationAirport: Airport;
-}
 
 export default function FlightDetails({
   arrivalDateTimeDisplay,
@@ -16,7 +8,7 @@ export default function FlightDetails({
   flightDuration,
   originAirport,
   destinationAirport,
-}: Props) {
+}: FlightCardNameSpace.FlightDetailsProps) {
   const airportDetails = (airport: Airport) => (
     <>
       <p className="text-gray-500 font-medium">{airport.city.code}</p>

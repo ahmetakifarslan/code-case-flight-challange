@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// Components
 import FlightDetails from "./FlightCardFlightDetails";
 import FareCategory from "./FlightCardFareCategory";
 import FareCategoryDetails from "./FlightCardFareCategoryDetails";
 
-// Types
-import { Flight, Subcategory } from "../../Types/Resources/Flight";
+import { Subcategory } from "../../Types/Resources/Flight";
 import {
   FareCategories,
   FareCategoriesEnum,
 } from "../../Types/Constants/Constants";
 
-// Config
 import { APP_CONFIG } from "../../AppConfig";
+import { FlightCardNameSpace } from "../../Types/PropTypes/FlightCardPropType";
 
-export default function FlightCard({ flight }: { flight: Flight }) {
+export default function FlightCard({ flight }: FlightCardNameSpace.Props) {
   const [category, setCategory] = useState<FareCategories>(
     "" as FareCategories
   );
@@ -48,7 +46,7 @@ export default function FlightCard({ flight }: { flight: Flight }) {
       const subCategories = flight.fareCategories[category].subcategories;
       setSubCategories(subCategories);
     }
-  }, [flight]);
+  }, [flight, category]);
 
   return (
     <div className="card">

@@ -1,16 +1,11 @@
-interface Props {
-  brandCode: "ecoFly" | "extraFly" | "primeFly";
-  label: string;
-  hasPromotion: boolean;
-  onClick: () => void;
-}
+import { FlightCardNameSpace } from "../../Types/PropTypes/FlightCardPropType";
 
 export default function FlightSelectButton({
   brandCode,
   hasPromotion,
   label,
   onClick,
-}: Props) {
+}: FlightCardNameSpace.FlightSelectButtonProps) {
   const isEcoFly = brandCode === "ecoFly";
   const isDisabled = hasPromotion && !isEcoFly;
 

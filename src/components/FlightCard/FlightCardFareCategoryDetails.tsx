@@ -1,23 +1,22 @@
 import { useSelector } from "react-redux";
 
-// Components
 import FlightSelectButton from "./FlightCardSelectButton";
 
-// Utils - Helpers
 import { v4 as uuidv4 } from "uuid";
 import { RootState } from "../../Services/StoreService";
 import { APP_CONFIG } from "../../AppConfig";
+import { FlightCardNameSpace } from "../../Types/PropTypes/FlightCardPropType";
+import { Subcategory } from "../../Types/Resources/Flight";
 
 export default function FareCategoryDetails({
-  flight,
   fareSubcategories,
   onClick,
-}: any) {
+}: FlightCardNameSpace.FareCategoryDetailsProps) {
   const hasPromotion = useSelector(
     (state: RootState) => state.flightsData.hasPromotion
   );
 
-  function handleClick(subCategory: any) {
+  function handleClick(subCategory: Subcategory) {
     onClick(subCategory);
   }
   return (
@@ -50,7 +49,6 @@ export default function FareCategoryDetails({
                 APP_CONFIG.lang.tr.pages.listPage.staticTexts.flightCard
                   .selectButtonLabel
               }
-              subCategoryStatus={subCategory.status}
               brandCode={subCategory.brandCode}
               hasPromotion={hasPromotion}
               onClick={() => handleClick(subCategory)}
