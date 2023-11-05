@@ -44,13 +44,11 @@ export default function FlightSearchForm() {
   } = useInput<string>(from || "", {
     validators: {
       required: (value) => requiredValidator(value),
-      locationValidator: (value) =>
+      airportValidator: (value) =>
         airportValidator(value, flights, "originAirport"),
     },
-    errorMessages: {
-      required: "Kalkış noktasını boş bırakamazsınız",
-      locationValidator: "Farklı bir kalkış noktası seçin. Örn; Istanbul",
-    },
+    errorMessages:
+      APP_CONFIG.lang.tr.pages.searchPage.staticTexts.form.from.errorMessages,
   });
 
   const {
@@ -61,13 +59,11 @@ export default function FlightSearchForm() {
   } = useInput<string>(to || "", {
     validators: {
       required: (value) => requiredValidator(value),
-      locationValidator: (value) =>
+      airportValidator: (value) =>
         airportValidator(value, flights, "destinationAirport"),
     },
-    errorMessages: {
-      required: "Varış noktasını boş bırakamazsınız",
-      locationValidator: "Farklı bir varış noktası seçin. Örn; Antalya",
-    },
+    errorMessages:
+      APP_CONFIG.lang.tr.pages.searchPage.staticTexts.form.to.errorMessages,
   });
 
   const { value: passengerCountForm, onChange: onPassengerCountChange } =
@@ -86,9 +82,9 @@ export default function FlightSearchForm() {
     event.preventDefault();
 
     const hasErrors =
-      fromInputErrors?.locationValidator ||
+      fromInputErrors?.airportValidator ||
       fromInputErrors?.required ||
-      toInputErrors?.locationValidator ||
+      toInputErrors?.airportValidator ||
       toInputErrors?.required;
 
     if (hasErrors) {

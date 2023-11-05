@@ -16,12 +16,23 @@ export const APP_CONFIG = {
             form: {
               from: {
                 placeholder: "Nereden",
+                errorMessages: {
+                  required: "Kalkış noktasını boş bırakamazsınız",
+                  airportValidator:
+                    "Farklı bir kalkış noktası seçin. Örn; Istanbul",
+                },
               },
               to: {
                 placeholder: "Nereye",
+                errorMessages: {
+                  required: "Varış noktasını boş bırakamazsınız",
+                  airportValidator:
+                    "Farklı bir varış noktası seçin. Örn; Antalya",
+                },
               },
               date: {
                 label: "Tarih",
+                errorMessages: {},
               },
               passengerCount: {
                 title: "Kabin ve Yolcu Seçimi",
@@ -32,6 +43,7 @@ export const APP_CONFIG = {
                 businessRadio: {
                   label: "Business Class",
                 },
+                errorMessages: {},
               },
             },
           },

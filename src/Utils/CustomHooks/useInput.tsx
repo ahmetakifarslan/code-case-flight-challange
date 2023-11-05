@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useInput<T>(initialValue: T, config?: InputConfig<T>) {
+function useInput<T>(initialValue: T, config?: InputConfig<T>) {
   const { validators, errorMessages } = config || {};
   const [value, setValue] = useState<T>(initialValue);
   const [errors, setErrors] = useState<Record<string, boolean>>({});
@@ -8,7 +8,7 @@ export function useInput<T>(initialValue: T, config?: InputConfig<T>) {
     Record<string, string>
   >({});
 
-  const handleChange = (newValue: T, ...rest: unknown[]) => {
+  const handleChange = (newValue: T, ...rest: any[]) => {
     setValue(newValue);
     if (validators) {
       const newErrors = createErrors(newValue, ...rest);
@@ -21,7 +21,7 @@ export function useInput<T>(initialValue: T, config?: InputConfig<T>) {
     }
   };
 
-  const createErrors = (value: T, ...rest: unknown[]) => {
+  const createErrors = (value: T, ...rest: any[]) => {
     const newErrors: Record<string, boolean> = {};
     for (const key in validators) {
       if (validators[key](value, ...rest))
@@ -60,7 +60,11 @@ export function useInput<T>(initialValue: T, config?: InputConfig<T>) {
   };
 }
 
-export interface InputConfig<T> {
-  validators?: Record<string, (value: T, ...rest: unknown[]) => boolean>;
+export default useInput;
+
+interface InputConfig<T> {
+  validators?: Record<string, (value: T, ...rest: any[]) => boolean>;
   errorMessages?: Record<string, string>;
 }
+
+export { useInput, InputConfig };
