@@ -1,9 +1,7 @@
 import { useState, ChangeEvent } from "react";
 
-// Components
 import { TextInput } from "../TextInput/TextInput";
 
-// Types
 import { Airport, Flights } from "../../../Types/Resources/Flight";
 import {
   ComboboxProps,

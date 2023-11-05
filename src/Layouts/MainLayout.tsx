@@ -16,7 +16,7 @@ export default function MainLayout() {
   function getPageName(pathname: string, selectedLang = "tr") {
     const pages = APP_CONFIG.lang[selectedLang].pages;
     for (const pageKey in pages) {
-      if (pages.hasOwnProperty(pageKey)) {
+      if (Object.hasOwnProperty.call(pages, pageKey)) {
         const page = pages[pageKey];
         if (page.route === pathname) {
           return page.documentTitle;

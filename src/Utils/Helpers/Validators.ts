@@ -15,6 +15,5 @@ export function airportValidator(
 }
 
 export function requiredValidator(value: string) {
-  console.log(value, "required");
   return value === "";
 }

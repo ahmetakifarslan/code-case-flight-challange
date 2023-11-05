@@ -3,19 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { applyDiscount } from "../../Store/Features/Fligths/flightsSlice";
 import { filterFlightsByParams } from "../../Store/Features/Fligths/filterFlightsByParamsThunk";
+import { RootState } from "../../Services/StoreService";
 
-// Components
 import FlightList from "../../Components/FlightList/FlightList";
 import Switch from "../../Components/Switch/Switch";
+import Spinner from "../../Components/Spinner/Spinner";
 
-// Images - Icons
 import CrossIcon from "../../Assets/Images/Icons/cross.svg?react";
 
-// Utils - Helpers
-import { RootState } from "../../Services/StoreService";
 import useQueryParams from "../../Utils/CustomHooks/useQueryParams";
 import { removeNullParamsFromURL } from "../../Utils/Helpers/RemoveNullParamsFromUrl";
-import Spinner from "../../Components/Spinner/Spinner";
 import { APP_CONFIG } from "../../AppConfig";
 
 export default function FlightListPage() {

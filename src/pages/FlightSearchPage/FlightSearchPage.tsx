@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getFlights } from "../../Store/Features/Fligths/getFlightsThunk";
 import { RootState } from "../../Services/StoreService";
+
 import FlightSearchForm from "../../Components/Forms/FlightSearchForm/FlightSearchForm";
 import Spinner from "../../Components/Spinner/Spinner";
-import { APP_CONFIG } from "../../AppConfig";
 import CrossIcon from "../../Assets/Images/Icons/cross.svg?react";
+
+import { APP_CONFIG } from "../../AppConfig";
 
 export default function FlightSearchPage() {
   const flightsData = useSelector((state: RootState) => state.flightsData);

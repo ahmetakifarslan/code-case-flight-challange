@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Flight } from "../../Types/Resources/Flight";
+
 import FlightCard from "../FlightCard/FlightCard";
+import { Flight } from "../../Types/Resources/Flight";
 import { APP_CONFIG } from "../../AppConfig";
 
 type SortType = "economy" | "arrivalDateTimeDisplay";

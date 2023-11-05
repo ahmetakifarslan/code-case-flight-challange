@@ -1,12 +1,10 @@
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 
-// Components
 import RadioGroup from "../RadioGroup/RadioGroup";
 import RadioButton from "../RadioButton/RadioButton";
 import Counter from "./Counter";
 import PassengerCountDropdown from "./PassengerCountDropdown";
 
-// Types
 import {
   FareCategories,
   FareCategoriesEnum,

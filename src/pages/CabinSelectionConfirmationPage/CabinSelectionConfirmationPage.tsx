@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
-// Icons
 import CrossIcon from "../../Assets/Images/Icons/cross.svg?react";
 import CheckMarkIcon from "../../Assets/Images/Icons/checkmark.svg?react";
 import { APP_CONFIG } from "../../AppConfig";
