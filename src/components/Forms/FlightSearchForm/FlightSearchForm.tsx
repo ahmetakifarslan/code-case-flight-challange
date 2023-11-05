@@ -142,7 +142,7 @@ export default function FlightSearchForm() {
       <form
         onSubmit={handleSubmit}
         onChange={handleFormChange}
-        className="bg-gray-500 flex gap-2 p-4 items-stretch text-dark w-max mx-auto flex-nowrap relative"
+        className="bg-gray-400 bg-opacity-60 flex gap-2 p-4 items-stretch text-dark w-max mx-auto flex-nowrap relative"
       >
         <div className="form-field flex-0 bg-white 16">
           <ComboBox

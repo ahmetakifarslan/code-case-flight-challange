@@ -4,9 +4,10 @@ Proje Açıklaması: Bu proje, uçak bileti alımı senaryosunu simüle etmek am
 
 ## Kriterler
 
-- Uygulama SPA olmalıdır.
-- React, Typescript, Vite ve Tailwind configurasyonları yapılarak geliştirme yapılmalır.
-- Unit test yazılması.En az 3 ayrı sayfa içermelidir. ( Uçuş sorgulama, Uçuş listeleme, Kabin seçimi)
+- [x] Uygulama SPA olmalıdır.
+- [x] React, Typescript, Vite ve Tailwind configurasyonları yapılarak geliştirme yapılmalır.
+- [ ] Unit test yazılması.
+- [x] En az 3 ayrı sayfa içermelidir. ( Uçuş sorgulama, Uçuş listeleme, Kabin seçimi)
 
 - **Uçuş sorgulama sayfası**
   - [x] Tarih alanında herhangi bir işlem yapılmayacaktır. Görsel olarak eklenmesi yeterlidir.
@@ -25,11 +26,11 @@ Proje Açıklaması: Bu proje, uçak bileti alımı senaryosunu simüle etmek am
   - [x] Status=error ise kabin seçimi tamamlanamadı şeklinde tasarıma uygun görüntülenebilmesi beklenmektedir.
 
 - **Stiller**
-- [ ] Uçuş Sorgulama Sayfası: background-color -> sky-900
-- [ ] Uçuş Sorgulama Sayfası kalkış-varış seçim alanı -> background-color: gray-400 opacity 60%;
-- [ ] Uçuşu Seç button color -> background-color: red-500 ;
-- [ ] Uçuş Listeleme Sayfası shadow -> box-shadow: 0 4px 8px 0 rgba(0,0,0,.05)
-- [ ] Uçuş Listeleme Sayfası paket header color -> background-color: #f9f9f9;
+- [x] Uçuş Sorgulama Sayfası: background-color -> sky-900
+- [x] Uçuş Sorgulama Sayfası kalkış-varış seçim alanı -> background-color: gray-400 opacity 60%;
+- [x] Uçuşu Seç button color -> background-color: red-500 ;
+- [x] Uçuş Listeleme Sayfası shadow -> box-shadow: 0 4px 8px 0 rgba(0,0,0,.05)
+- [x] Uçuş Listeleme Sayfası paket header color -> background-color: #f9f9f9;
 
 ## Teknolojiler
 
