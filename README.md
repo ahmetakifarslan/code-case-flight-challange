@@ -2,6 +2,8 @@
 
 Proje Açıklaması: Bu proje, uçak bileti alımı senaryosunu simüle etmek amacıyla oluşturulmuştur. Geliştirme için Vite kullanılmış olup, React ve TypeScript çerçevesinde bir Single Page Application (SPA) geliştirilmiştir.
 
+Canlı demo için [**https://flight-challenge.netlify.app**](https://flight-challenge.netlify.app/).
+
 ## Kriterler
 
 - [x] Uygulama SPA olmalıdır.
