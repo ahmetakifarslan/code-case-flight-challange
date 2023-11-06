@@ -62,6 +62,12 @@ Uygulamada, Tailwind CSS sınıfları dışında özel bir stil kullanmamaya öz
 
 Projede testler jest kullanılarak yazılmıştır. Testler, uygulamanın farklı bileşenlerini ve işlevselliğini test etmek için kullanılabilir. Ancak, testler sınırlı vakit nedeniyle sembolik olarak oluşturulmuştur.
 
+```bash
+   npm run test
+```
+
+İle testleri koşturabilirsiniz.
+
 #### Projeyi Başlatmadan
 
 Projeyi başlatmadan önce, src/ dizini altındaki AppConfig.js dosyasını kullanarak uygulamanın temel ayarlarını merkezi bir şekilde yönetmeyi deneyebilirsiniz. Bu dosya, projenin bazı önemli ayarlarını içermektedir. İşte bu ayarlar hakkında detaylı bilgiler:
