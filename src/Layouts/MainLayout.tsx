@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { APP_CONFIG } from "../AppConfig";
+import Header from "../Components/Header/Header";
 
 export default function MainLayout() {
   const location = useLocation();
@@ -40,15 +41,7 @@ export default function MainLayout() {
         <title>Code Case | {documentTitle}</title>
       </Helmet>
       <div className="min-h-screen flex flex-col dark:bg-sky-900 dark:text-white dark:border-white">
-        <div className="flex justify-between border-b p-4">
-          <Link to="/">
-            <p className="font-bold">{APP_CONFIG.brandName}</p>
-          </Link>
-          <p>
-            <span>{documentTitle}</span> |
-            <span className="font-bold"> {APP_CONFIG.appName}</span>
-          </p>
-        </div>
+        <Header documentTitle={documentTitle} />
 
         <div className="mx-auto flex-1 flex items-stretch justify-center mt-8 min-w-[80%]">
           <Outlet></Outlet>
